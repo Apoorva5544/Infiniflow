@@ -5,6 +5,7 @@ Production Authentication Module
 - OAuth2 dependency for protecting routes
 """
 from datetime import datetime, timedelta
+import hashlib, base64
 from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -22,12 +23,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+def _prepare(password: str) -> str:
+    """SHA-256 + base64 encode so bcrypt's 72-byte limit is never hit."""
+    digest = hashlib.sha256(password.encode()).digest()
+    return base64.b64encode(digest).decode()
+
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return pwd_context.verify(_prepare(plain_password), hashed_password)
 
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    return pwd_context.hash(_prepare(password))
 
 
 # ── JWT helpers ────────────────────────────────────────────────────────────────
