@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - JWT_SECRET=${JWT_SECRET:-change-this-in-production}
+      - DATABASE_URL=sqlite:///./backend/infiniflow.db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CHROMA_PATH=./chroma_db
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - ./backend:/app/backend
+    depends_on:
+      - redis
+    command: uvicorn backend.main_v2:app --host 0.0.0.0 --port 8000 --reload
+
+  celery_worker:
+    build: .
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - JWT_SECRET=${JWT_SECRET:-change-this-in-production}
+      - DATABASE_URL=sqlite:///./backend/infiniflow.db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CHROMA_PATH=./chroma_db
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - ./backend:/app/backend
+    depends_on:
+      - redis
+    command: celery -A backend.tasks worker --loglevel=info --concurrency=2
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  streamlit:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    command: streamlit run admin_dashboard.py --server.port 8501 --server.address 0.0.0.0
+    depends_on:
+      - backend
+
+volumes:
+  redis_data:
