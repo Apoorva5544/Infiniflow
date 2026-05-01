@@ -92,7 +92,7 @@ uvicorn backend.main_v2:app --reload --port 8000
 
 API docs will be at `http://localhost:8000/api/docs`
 
-### 4. Run the Streamlit dashboard (optional)
+### 4. Run the Streamlit dashboard (optional) - was a first prototype
 
 ```bash
 streamlit run app.py
