@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.env
+*.db
+chroma_db/
+redis_data/
+tests/
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore

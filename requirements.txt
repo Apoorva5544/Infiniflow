@@ -30,7 +30,7 @@ beautifulsoup4==4.12.3
 unstructured==0.16.9
 
 # Database & Caching
-sqlalchemy==2.0.36
+sqlalchemy==2.0.35
 redis==5.2.1
 alembic==1.14.0
 
@@ -53,7 +53,7 @@ tiktoken==0.8.0
 aiofiles==24.1.0
 celery==5.4.0
 httpx==0.28.1
-tenacity==9.0.0
+tenacity>=8.2.3,<9.0.0
 
 # Testing & Quality
 pytest==8.3.4
@@ -62,6 +62,5 @@ pytest-cov==6.0.0
 black==24.10.0
 ruff==0.8.4
 
-# CORS & Middleware
-python-cors==1.0.0
+# CORS & Middleware (CORS handled by FastAPI CORSMiddleware)
 slowapi==0.1.9

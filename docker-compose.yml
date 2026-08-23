@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   backend:
     build: .
@@ -49,7 +47,7 @@ services:
       - "8501:8501"
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
-    command: streamlit run admin_dashboard.py --server.port 8501 --server.address 0.0.0.0
+    command: streamlit run app.py --server.port 8501 --server.address 0.0.0.0
     depends_on:
       - backend
 
