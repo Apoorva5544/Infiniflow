@@ -1,7 +1,6 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import Chroma
 
@@ -11,7 +10,25 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import EnsembleRetriever
+from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 import time
+
+
+class _OnnxMiniLMEmbeddings:
+    """Lightweight ONNX MiniLM embeddings (~50MB RAM) instead of PyTorch (~400MB)."""
+
+    def __init__(self):
+        self._ef = ONNXMiniLM_L6_V2()
+
+    def embed_documents(self, texts):
+        return [list(map(float, v)) for v in self._ef(list(texts))]
+
+    def embed_query(self, text):
+        return list(map(float, self._ef([text])[0]))
+
+
+def _embeddings():
+    return _OnnxMiniLMEmbeddings()
 
 def process_document(file_path):
     """Loads a PDF and splits it into smaller chunks with metadata."""
@@ -48,23 +65,21 @@ def list_collections():
 
 def create_vector_store(chunks, collection_name="default"):
     """Creates/Updates a named Chroma vector database."""
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     persist_dir = os.path.join(CHROMA_PATH, collection_name)
     
     vector_store = Chroma.from_documents(
         documents=chunks,
-        embedding=embeddings,
+        embedding=_embeddings(),
         persist_directory=persist_dir
     )
     return vector_store
 
 def get_vector_store(collection_name="default"):
     """Retrieves a specific vector store by name."""
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     persist_dir = os.path.join(CHROMA_PATH, collection_name)
     
     if os.path.exists(persist_dir):
-        return Chroma(persist_directory=persist_dir, embedding_function=embeddings)
+        return Chroma(persist_directory=persist_dir, embedding_function=_embeddings())
     return None
 
 def delete_collection(collection_name):
@@ -93,7 +108,7 @@ def get_hybrid_retriever(vector_store, chunks=None):
                 return vector_retriever
                 
             from langchain_core.documents import Document
-            chunks = [Document(page_content=d, metadata=m) for d, m in zip(docs, metas)]
+            chunks = [Document(page_content=d, metadata=m or {}) for d, m in zip(docs, metas)]
         except Exception as e:
             print(f"Warning: Error fetching documents for BM25: {e}")
             return vector_retriever
