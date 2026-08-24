@@ -418,13 +418,10 @@ async def query_workspace(
         if not vs:
             raise HTTPException(status_code=404, detail="No documents in this Knowledge Layer")
 
-        # Advanced RAG: query routing + adaptive retrieval
+        # Advanced RAG: strategy resolution ("auto" = direct retrieval, no extra LLM round-trips)
         advanced_rag = AdvancedRAGEngine(vs, ws.llm_model)
-        strategy = (
-            advanced_rag.query_routing(query_req.question)
-            if query_req.strategy == "auto"
-            else query_req.strategy
-        )
+        strategy = query_req.strategy if query_req.strategy != "auto" else "simple"
+        logger.info(f"Query started [{strategy}]: {query_req.question[:50]}")
         documents = advanced_rag.adaptive_retrieval(query_req.question, strategy)
 
         # Hybrid retriever (60/40 vector/BM25) + history-aware chain
@@ -437,10 +434,16 @@ async def query_workspace(
 
         latency = (time.time() - start) * 1000
 
-        evaluator = RAGEvaluator()
-        relevance_score = evaluator.calculate_relevance_score(
-            query_req.question, documents, advanced_rag.llm
-        )
+        # Local relevance scoring (keyword overlap) — avoids 5 extra LLM calls
+        q_terms = {w for w in query_req.question.lower().split() if len(w) > 2}
+        if documents and q_terms:
+            overlaps = [
+                len(q_terms & set(doc.page_content.lower().split())) / len(q_terms)
+                for doc in documents[:5]
+            ]
+            relevance_score = min(10.0, (sum(overlaps) / len(overlaps)) * 10)
+        else:
+            relevance_score = 0.0
 
         sources = list(set([
             doc.metadata.get("source", "Unknown")
