@@ -52,7 +52,7 @@ from dotenv import load_dotenv
 
 # --- CONFIGURATION ---
 load_dotenv(override=True)
-CHROMA_PATH = "./chroma_db"
+CHROMA_PATH = os.getenv("CHROMA_PATH", "./chroma_db")
 
 def list_collections():
     """Returns a list of available knowledge base collections."""
