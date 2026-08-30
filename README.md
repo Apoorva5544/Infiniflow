@@ -1,64 +1,112 @@
-# Infiniflow
+# Infiniflow — Production RAG Platform with Agentic Retrieval
 
-A RAG (Retrieval-Augmented Generation) platform that lets you build knowledge bases from your documents and query them using a hybrid search engine. It ships with a Streamlit analytical dashboard and a production-grade REST API backed by FastAPI.
+> Multi-tenant RAG with hybrid search (vector + BM25), cross-encoder reranking,
+> agentic retrieval strategies, real-time SSE streaming, source-level citations,
+> and a built-in evaluation harness.
 
-## What it does
+Infiniflow turns uploaded documents into queryable **knowledge layers** inside
+isolated **workspaces**, protected by JWT-auth, and answers questions with
+citations you can trace back to the exact chunk, page, and document.
 
-- Upload PDFs into isolated **workspaces** (knowledge bases)
-- Query them using a **hybrid retriever** — ChromaDB vector search combined with BM25 keyword search (60/40 weighted ensemble)
-- Supports **history-aware query reformulation** so follow-up questions work naturally
-- Semantic caching layer to avoid redundant LLM calls
-- JWT authentication on all API routes
-- React frontend for the full user-facing experience
-- Streamlit interface for analytical / internal use
+---
 
-## Stack
+## ✨ What makes this different
 
-| Layer | Tech |
-|---|---|
-| LLM / Embeddings | Groq API (Llama 3), HuggingFace embeddings |
-| Vector Store | ChromaDB |
-| Keyword Search | BM25 (rank_bm25) |
-| API | FastAPI, SQLAlchemy, SQLite |
-| Auth | JWT (python-jose) |
-| Frontend | React + Vite + TailwindCSS |
-| Analytical UI | Streamlit |
+| Feature | Basic RAG tutorial | Infiniflow |
+|---|---|---|
+| Retrieval | Vector only | Hybrid (vector + BM25, 60/40 ensemble) |
+| Precision | Top-k only | Cross-encoder **reranker** after retrieval |
+| Reasoning | One-shot | Adaptive strategies: routing, multi-query, HyDE, decomposition |
+| Citations | None | Chunk-level attribution (source, page, snippet, score) |
+| Streaming | No | SSE with sources-first, then token stream |
+| Caching | In-memory | Semantic cache (exact + embedding match) — **Redis-backed** with TTL & invalidation |
+| Storage | SQLite | **PostgreSQL + pgvector** (HNSW ANN) with SQLite fallback for dev |
+| Auth / tenancy | Optional | JWT on every route + per-user workspace isolation |
+| Metrics | Guesswork | `evals/` harness with CI gates (context precision, recall, MRR, faithfulness) |
+| Frontend | API curl | React (Vite) chat with streaming answers + expandable citation cards |
 
-## Project Structure
+## 🏗️ Architecture
 
 ```
-infiniflow/
-├── app.py                  # Streamlit analytical dashboard
-├── rag_engine.py           # Core RAG logic — chunking, embeddings, retrieval chains
-├── requirements.txt
-├── docker-compose.yml
-├── Dockerfile
-│
-├── backend/                # FastAPI REST API
-│   ├── main_v2.py          # API routes (auth, workspaces, documents, querying)
-│   ├── models.py           # SQLAlchemy ORM models
-│   ├── auth.py             # JWT utilities
-│   ├── config.py           # Settings (env-driven)
-│   ├── database.py         # DB session + engine setup
-│   └── analytics.py        # Query analytics engine
-│
-├── ai_engine/              # Advanced RAG modules
-│   ├── advanced_rag.py     # Query routing + adaptive retrieval + evaluator
-│   ├── semantic_cache.py   # In-memory semantic cache
-│   └── agents.py           # Agentic query handling
-│
-├── frontend/               # React + Vite SPA
-│   ├── src/
-│   │   ├── pages/          # Dashboard, Login, Workspace views
-│   │   └── api/            # Axios API layer
-│   └── tailwind.config.js
-│
-└── tests/
-    ├── test_advanced_rag.py
-    └── test_semantic_cache.py
+                        ┌──────────────────────────────────────────────┐
+                        │                    Client                     │
+                        │      React chat (SSE) · Streamlit analytics   │
+                        └───────────────┬──────────────────────────────┘
+                                        │ JWT Bearer
+                                        ▼
+                       ┌──────────────────────────────────────────────┐
+                       │        FastAPI (backend/main_v2.py)          │
+                       │  auth · workspaces · upload · query · stream │
+└───────┬───────────────────────┬──────────────┘
+                                │                       │
+               ┌────────────────▼───────────────┐  ┌─────▼─────────────────────┐
+               │         SQLAlchemy / SQLite    │  │  Semantic cache           │
+               │  users · workspaces · docs ·   │  │  Redis (REDIS_URL) with   │
+               │  query_logs · api_usage        │  │  in-memory fallback       │
+               │  PostgreSQL (+ pgvector) in    │  └───────────────────────────┘
+               │  prod · connection pooling     │
+               └──────────────────────────────┘
+                                │
+                 ┌─────────────▼──────────────────────────┐
+                 │             Retrieval layer             │
+                 │  ChromaDB (dev) OR pgvector (prod) ANN  │
+                 │  BM25 keyword search                    │
+                 │  EnsembleRetriever (0.6 + 0.4)          │
+                 │  Cross-encoder reranker (top-k → 5)     │
+                 └─────────────┬──────────────────────────┘
+                               │ context + citations
+                               ▼
+                       ┌──────────────────────────────┐
+                       │  LLM generation (Groq)      │
+                       │  history-aware reformulation│
+                       │  numbered source citations  │
+                       └──────────────────────────────┘
 ```
 
-## Getting Started
+Ingestion path: `upload → PyPDFLoader → RecursiveCharacterTextSplitter → ONNX
+MiniLM embeddings → ChromaDB (dev) or pgvector (prod) collection per workspace
+→ cache invalidated`.
+
+Query path: `reformulate → hybrid retrieve → rerank → generate → stream
+(sources event first, then tokens)`.
+
+## 🗄️ Storage backends
+
+Everything storage-related is env-switchable, so dev stays zero-infra while
+production scales:
+
+| Concern | Dev / default | Production |
+|---|---|---|
+| Metadata (users, docs, logs) | SQLite | **PostgreSQL** via `DATABASE_URL` (pooled, `pool_pre_ping`) |
+| Embeddings | ChromaDB local dir | **pgvector** via `VECTOR_STORE=pgvector` (HNSW ANN on Neon/Postgres) |
+| Semantic cache | In-process dict | **Redis** via `REDIS_URL` (Upstash) with automatic fallback |
+
+The vector-store facade (`ai_engine/store.py`) exposes identical functions for
+both backends, and `get_hybrid_retriever` rebuilds BM25 from whatever store is
+active — swap `VECTOR_STORE=pgvector` and the existing upload/query/stream
+endpoints work unchanged. Embeddings stay 384-dim (`all-MiniLM-L6-v2` via
+ONNX) in both.
+
+## 📊 Evaluation
+
+`evals/evaluate.py` runs the real retrieval pipeline over a deterministic
+corpus and reports citation-grade metrics — and **fails CI** when they regress:
+
+- `context_precision@5` — fraction of top-5 chunks that carry the answer evidence
+- `recall@5` — fraction of expected sources found in the top-5
+- `MRR@5` — how early the first relevant source ranks (shows reranker value)
+- `faithfulness` — LLM-as-judge groundedness of the generated answer
+  (enabled when `GROQ_API_KEY` is set)
+
+```bash
+python -m evals.evaluate                # human-readable report
+python -m evals.evaluate --json --no-generation   # CI-friendly, offline
+```
+
+Every push runs this in GitHub Actions (see `.github/workflows/ci.yml`), so
+retrieval quality is measured, not assumed.
+
+## 🚀 Quick start
 
 ### Prerequisites
 
@@ -66,66 +114,44 @@ infiniflow/
 - Node.js 18+
 - A [Groq API key](https://console.groq.com/)
 
-### 1. Clone and set up Python environment
+### 1. Backend
 
 ```bash
-git clone https://github.com/Apoorva5544/Infiniflow.git
-cd Infiniflow
-
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-```
 
-### 2. Configure environment variables
-
-```bash
-cp .env.example .env
-# Edit .env and add your GROQ_API_KEY and a JWT_SECRET_KEY
-```
-
-### 3. Run the API
-
-```bash
+cp .env.example .env   # add your GROQ_API_KEY and a long JWT_SECRET
 uvicorn backend.main_v2:app --reload --port 8000
 ```
 
-API docs will be at `http://localhost:8000/api/docs`
+Interactive API docs: <http://localhost:8000/api/docs>
 
-### 4. Run the Streamlit dashboard (optional) - was a first prototype
+### 2. Frontend
+
+```bash
+cd frontend
+npm install
+VITE_API_URL=http://localhost:8000 npm run dev
+```
+
+### 3. Analytics dashboard
+
+Infiniflow ships an **admin analytics dashboard** (Streamlit) for query
+insights, cache stats, and usage trends:
 
 ```bash
 streamlit run app.py
 ```
 
-### 5. Run the frontend
+### 4. Docker
 
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose up --build
 ```
 
-Frontend runs at `http://localhost:5173`
+Up brings the API, Celery worker, Redis, and the analytics dashboard.
 
-### Docker (optional)
-
-```bash
-docker-compose up --build
-```
-
-## Environment Variables
-
-| Variable | Description |
-|---|---|
-| `GROQ_API_KEY` | Your Groq API key |
-| `JWT_SECRET_KEY` | Secret for signing JWTs (generate a random string) |
-| `CHROMA_PATH` | Path to store ChromaDB data (default: `./chroma_db`) |
-| `DATABASE_URL` | SQLite path (default: `sqlite:///./backend/database.db`) |
-
-See `.env.example` for all options.
-
-## API Overview
+## 🔍 Querying — API overview
 
 | Method | Route | Description |
 |---|---|---|
@@ -134,11 +160,83 @@ See `.env.example` for all options.
 | GET | `/api/v1/auth/me` | Current user |
 | POST | `/api/v1/workspaces` | Create workspace |
 | GET | `/api/v1/workspaces` | List workspaces |
-| POST | `/api/v1/workspaces/{id}/upload` | Upload PDF |
-| POST | `/api/v1/workspaces/{id}/query` | Query workspace |
+| POST | `/api/v1/workspaces/{id}/upload` | Ingest a document |
+| POST | `/api/v1/workspaces/{id}/query` | Non-streaming RAG answer |
+| POST | `/api/v1/workspaces/{id}/query/stream` | **SSE**: sources event → token stream |
 | GET | `/api/v1/workspaces/{id}/analytics` | Usage analytics |
 
-Full interactive docs at `/api/docs` when the server is running.
+Every query returns structured `citations`:
+
+```json
+{
+  "answer": "The capital of France is Paris, located on the Seine [1].",
+  "citations": [
+    {
+      "source": "europe_guide.pdf",
+      "page": 4,
+      "chunk_text": "Paris, the capital of France, is located on the River Seine...",
+      "relevance_score": 0.94
+    }
+  ],
+  "strategy_used": "hybrid+rerank",
+  "latency_ms": 412
+}
+```
+
+## 🧠 Reranking
+
+Hybrid retrieval returns ~10 candidates; the cross-encoder
+(`cross-encoder/ms-marco-MiniLM-L-6-v2`) re-scores them and keeps the top 5
+that actually answer the question. Scoring is sigmoid-normalized into (0, 1)
+so it displays cleanly next to citations.
+
+- Enable/disable: `ENABLE_RERANKER=true` (`.env`)
+- Top-k: `RERANKER_TOP_K=5`
+- If the model can't be loaded (no network, first run in CI), the pipeline
+  **degrades gracefully** to top-k truncation instead of failing.
+
+## 📈 Roadmap
+
+The platform is architected so these slot in without rework:
+
+1. **Multi-provider LLM router** — Groq primary with OpenAI/Anthropic/Sarvam
+   fallbacks (`ai_engine/` already isolates providers).
+2. **RAGAS** — plug `ragas` into `evals/evaluate.py` for reference-free
+   faithfulness / answer relevancy on live traffic.
+3. **GraphRAG mode** — entity-extraction pass at ingestion feeding a knowledge
+   graph for multi-hop relationship questions.
+4. **RedisVL / RediSearch ANN** — move the in-process semantic matching into
+   Redis-native KNN so the cache scales to millions of entries per worker.
+5. **Async ingestion** — promote the Celery worker to the default upload path
+   (it already supports it) so large PDFs never block the request.
+
+## Environment variables
+
+| Variable | Description |
+|---|---|
+| `GROQ_API_KEY` | Groq API key (LLM generation) |
+| `JWT_SECRET` | Secret for signing JWTs — long random string in prod |
+| `DATABASE_URL` | SQLAlchemy URL. SQLite by default; set a `postgresql://` URL (e.g. Neon) for pooling + pgvector |
+| `VECTOR_STORE` | `chroma` (default) or `pgvector` (requires Postgres `DATABASE_URL`) |
+| `REDIS_URL` | Redis connection string (Upstash `rediss://…`) — enables Redis-backed cache |
+| `UPSTASH_REDIS_REST_URL` | Alternative Redis endpoint for the cache backend |
+| `CHROMA_PATH` | Directory for ChromaDB collections |
+| `ENABLE_RERANKER` | Toggle cross-encoder reranking (default `true`) |
+| `RERANKER_TOP_K` | Reranker output size (default `5`) |
+| `REDIS_HOST` / `REDIS_PORT` | Redis (Celery broker) |
+| `INFINIFLOW_SKIP_RERANKER` | Force reranker fallback (used in CI) |
+
+## Repository layout
+
+```
+├── backend/             FastAPI API: auth, workspaces, documents, query, stream
+├── ai_engine/           reranker, adaptive retrieval, semantic cache, agents
+├── evals/               deterministic corpus + evaluation harness
+├── frontend/            React + Vite + Tailwind chat UI
+├── tests/               pytest suites
+├── rag_engine.py        retrieval / generation core
+└── app.py               admin analytics dashboard (Streamlit)
+```
 
 ## License
 

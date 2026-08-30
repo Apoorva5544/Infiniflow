@@ -17,7 +17,7 @@ import os
 class ResearchAgent:
     """Autonomous research agent for document analysis"""
     
-    def __init__(self, vector_store, model: str = "llama-3.1-70b-versatile"):
+    def __init__(self, vector_store, model: str = "qwen/qwen3.8-27b"):
         self.vector_store = vector_store
         self.llm = ChatGroq(
             temperature=0.7,
@@ -151,7 +151,7 @@ class ResearchAgent:
 class DataAnalysisAgent:
     """Agent for analyzing data patterns in documents"""
     
-    def __init__(self, vector_store, model: str = "llama-3.1-70b-versatile"):
+    def __init__(self, vector_store, model: str = "qwen/qwen3.8-27b"):
         self.vector_store = vector_store
         self.llm = ChatGroq(
             temperature=0.3,

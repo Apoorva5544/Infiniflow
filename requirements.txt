@@ -19,6 +19,8 @@ chromadb==0.5.23
 rank_bm25==0.2.2
 sentence-transformers==3.3.1
 faiss-cpu==1.9.0
+pgvector==0.3.6
+psycopg2-binary==2.9.10
 
 # Document Processing
 pypdf==5.1.0
@@ -61,6 +63,7 @@ pytest-asyncio==0.24.0
 pytest-cov==6.0.0
 black==24.10.0
 ruff==0.8.4
+fakeredis==2.26.2
 
 # CORS & Middleware (CORS handled by FastAPI CORSMiddleware)
 slowapi==0.1.9

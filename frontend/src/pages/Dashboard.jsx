@@ -90,7 +90,7 @@ export default function Dashboard({ user, onLogout }) {
     const [workspaces, setWorkspaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [form, setForm] = useState({ name: '', description: '', llm_model: 'llama-3.1-8b-instant' });
+    const [form, setForm] = useState({ name: '', description: '', llm_model: 'qwen/qwen3.8-27b' });
     const [creating, setCreating] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
     const navigate = useNavigate();
@@ -116,7 +116,7 @@ export default function Dashboard({ user, onLogout }) {
         try {
             await api.post('/api/v1/workspaces', form);
             toast.success(`Knowledge Layer "${form.name}" created`);
-            setForm({ name: '', description: '', llm_model: 'llama-3.1-8b-instant' });
+            setForm({ name: '', description: '', llm_model: 'qwen/qwen3.8-27b' });
             setShowModal(false);
             fetchWorkspaces();
         } catch (err) {
@@ -273,8 +273,8 @@ export default function Dashboard({ user, onLogout }) {
                             <div>
                                 <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">LLM Model</label>
                                 <select className="input-field" value={form.llm_model} onChange={e => setForm(f => ({ ...f, llm_model: e.target.value }))}>
-                                    <option value="llama-3.1-8b-instant">Llama 3.1 8B (Fast)</option>
-                                    <option value="llama-3.1-70b-versatile">Llama 3.1 70B (Powerful)</option>
+                                    <option value="qwen/qwen3.8-27b">Qwen 3.8 27B (Fast)</option>
+                                    <option value="qwen/qwen3.6-27b">Qwen 3.6 27B (Fallback)</option>
                                     <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
                                 </select>
                             </div>

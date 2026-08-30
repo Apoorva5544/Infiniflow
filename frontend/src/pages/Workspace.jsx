@@ -72,6 +72,7 @@ function Message({ msg }) {
             <div className="max-w-[80%] space-y-3">
                 <div className="px-4 py-3 rounded-2xl rounded-tl-sm glass text-sm ai-answer">
                     <div dangerouslySetInnerHTML={{ __html: formatAnswer(msg.text) }} />
+                    {!msg.text && <span className="text-gray-500 animate-pulse">Thinking…</span>}
                 </div>
 
                 {/* Metadata row */}
@@ -98,8 +99,35 @@ function Message({ msg }) {
                     </div>
                 )}
 
-                {/* Sources */}
-                {msg.sources?.length > 0 && (
+                {/* Citations */}
+                {msg.citations?.length > 0 && (
+                    <div>
+                        <p className="text-xs text-gray-600 mb-1.5">Citations</p>
+                        <div className="space-y-1.5">
+                            {msg.citations.map((c, i) => (
+                                <details key={i} className="rounded-xl bg-white/[0.03] border border-white/[0.08] px-3 py-2 group open:bg-white/[0.05]">
+                                    <summary className="cursor-pointer list-none flex items-center justify-between gap-2 text-xs">
+                                        <span className="flex items-center gap-1.5 min-w-0">
+                                            <span>📄</span>
+                                            <span className="text-gray-300 truncate">{c.source}</span>
+                                            {c.page != null && <span className="text-gray-600 shrink-0">· p.{c.page}</span>}
+                                        </span>
+                                        <span className="flex items-center gap-2 shrink-0">
+                                            {typeof c.relevance_score === 'number' && (
+                                                <span className="text-brand-400">{(c.relevance_score * 100).toFixed(0)}%</span>
+                                            )}
+                                            <span className="text-gray-600">▾</span>
+                                        </span>
+                                    </summary>
+                                    <p className="text-[11px] text-gray-500 mt-1.5 leading-relaxed">{c.chunk_text}</p>
+                                </details>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Sources (legacy list, shown only when structured citations are absent) */}
+                {!msg.citations?.length && msg.sources?.length > 0 && (
                     <div>
                         <p className="text-xs text-gray-600 mb-1.5">Sources</p>
                         <div className="flex flex-wrap gap-1.5">
@@ -121,11 +149,53 @@ function formatAnswer(text) {
     // Simple markdown-like rendering
     return text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[(\d+)\]/g, '<sup class="text-brand-400 font-semibold">[$1]</sup>')
         .replace(/^#{1,3} (.+)$/gm, '<h3 class="font-semibold text-white mt-2 mb-1">$1</h3>')
         .replace(/^- (.+)$/gm, '<li>$1</li>')
         .replace(/`([^`]+)`/g, '<code class="font-mono text-xs bg-white/[0.08] px-1.5 py-0.5 rounded text-brand-300">$1</code>')
         .replace(/\n\n/g, '</p><p class="mb-3">')
         .replace(/\n/g, '<br/>');
+}
+
+// ── SSE streaming helper ──────────────────────────────────────────────────────
+async function streamQuery(workspaceId, payload, handlers) {
+    const base = api.defaults.baseURL || '';
+    const token = localStorage.getItem('token');
+    const resp = await fetch(`${base}/api/v1/workspaces/${workspaceId}/query/stream`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(payload),
+    });
+    if (!resp.ok) throw new Error(`Stream request failed (${resp.status})`);
+    if (!resp.body) throw new Error('Streaming not supported by this browser');
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+
+        let idx;
+        while ((idx = buf.indexOf('\n\n')) !== -1) {
+            const frame = buf.slice(0, idx);
+            buf = buf.slice(idx + 2);
+            const dataLine = frame.split('\n').find(l => l.startsWith('data: '));
+            if (!dataLine) continue;
+            let data;
+            try {
+                data = JSON.parse(dataLine.slice(6));
+            } catch {
+                continue;
+            }
+            if (data.type === 'sources') handlers.onSources?.(data);
+            else if (data.type === 'token') handlers.onToken?.(data.content);
+            else if (data.type === 'done') handlers.onDone?.(data);
+            else if (data.type === 'error') handlers.onError?.(data.detail);
+        }
+    }
 }
 
 // ── Document list item ─────────────────────────────────────────────────────────
@@ -164,6 +234,7 @@ export default function Workspace() {
     const [chatHistory, setChatHistory] = useState([]);
     const bottomRef = useRef(null);
     const fileInputRef = useRef(null);
+    const answerRef = useRef('');
 
     const fetchWorkspace = useCallback(async () => {
         try {
@@ -217,42 +288,63 @@ export default function Workspace() {
         if (!q || querying) return;
 
         setQuestion('');
-        setMessages(prev => [...prev, { type: 'user', text: q }]);
         setQuerying(true);
+        answerRef.current = '';
 
+        const aiMsg = { id: Date.now() + 1, type: 'ai', text: '', sources: [], citations: [], strategy_used: 'hybrid+rerank', latency_ms: null, relevance_score: undefined, cached: false };
+        setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: q }, aiMsg]);
+
+        const patch = (updates) => setMessages(prev =>
+            prev.map(m => m.id === aiMsg.id ? { ...m, ...updates } : m)
+        );
+
+        const payload = { question: q, chat_history: chatHistory, strategy: 'auto', use_cache: true };
+
+        // 1) Try streaming (SSE)
         try {
-            const resp = await api.post(`/api/v1/workspaces/${id}/query`, {
-                question: q,
-                chat_history: chatHistory,
-                strategy: 'auto',
-                use_cache: true,
+            await streamQuery(id, payload, {
+                onSources: (s) => patch({
+                    citations: s.citations || [],
+                    strategy_used: s.strategy_used || aiMsg.strategy_used,
+                    cached: s.cached,
+                }),
+                onToken: (tok) => {
+                    answerRef.current += tok;
+                    patch({ text: answerRef.current });
+                },
+                onDone: (d) => patch({ latency_ms: d.latency_ms, cached: d.cached }),
+                onError: (detail) => {
+                    patch({ type: 'error', text: detail || 'Streaming failed.' });
+                    answerRef.current = '';
+                },
             });
-
-            const aiMsg = {
-                type: 'ai',
-                text: resp.data.answer,
-                sources: resp.data.sources || [],
-                strategy_used: resp.data.strategy_used,
-                latency_ms: resp.data.latency_ms,
-                relevance_score: resp.data.relevance_score,
-                cached: resp.data.cached,
-            };
-            setMessages(prev => [...prev, aiMsg]);
-
-            // Keep rolling chat history (last 10 turns)
-            setChatHistory(prev => [
-                ...prev.slice(-10),
-                { role: 'human', content: q },
-                { role: 'ai', content: resp.data.answer },
-            ]);
-        } catch (err) {
-            setMessages(prev => [...prev, {
-                type: 'error',
-                text: err.response?.data?.detail || 'Query failed. Make sure documents are ingested first.',
-            }]);
-        } finally {
-            setQuerying(false);
+        } catch {
+            // 2) Fallback: non-streaming endpoint (also used with suppressed sources)
+            try {
+                const resp = await api.post(`/api/v1/workspaces/${id}/query`, payload);
+                const d = resp.data;
+                answerRef.current = d.answer;
+                patch({
+                    text: d.answer,
+                    sources: d.sources || [],
+                    citations: d.citations || [],
+                    strategy_used: d.strategy_used || 'simple',
+                    latency_ms: d.latency_ms,
+                    relevance_score: d.relevance_score,
+                    cached: d.cached,
+                });
+            } catch (err) {
+                patch({ type: 'error', text: err.response?.data?.detail || 'Query failed. Make sure documents are ingested first.' });
+            }
         }
+
+        // Rolling chat history (last 10 turns)
+        setChatHistory(prev => [
+            ...prev.slice(-10),
+            { role: 'human', content: q },
+            { role: 'ai', content: answerRef.current },
+        ]);
+        setQuerying(false);
     };
 
     return (
@@ -307,7 +399,7 @@ export default function Workspace() {
                             {workspace?.name || 'Loading...'}
                         </h1>
                         <p className="text-gray-500 text-xs">
-                            Hybrid Retriever · ChromaDB (60%) + BM25 (40%) · History-aware reformulation
+                            Hybrid Retrieval · Vector + BM25 + Cross-encoder rerank · Streaming with citations
                         </p>
                     </div>
                     <div className="flex gap-2">
@@ -371,7 +463,7 @@ export default function Workspace() {
                         </button>
                     </form>
                     <p className="text-center text-xs text-gray-700 mt-2">
-                        EnsembleRetriever · BM25 + ChromaDB Semantic · History-aware query reformulation
+                        EnsembleRetriever · BM25 + ChromaDB · Cross-encoder rerank · SSE streaming · Source citations
                     </p>
                 </div>
             </div>

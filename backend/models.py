@@ -53,7 +53,7 @@ class Workspace(Base):
     is_active = Column(Boolean, default=True)
     
     # AI Configuration
-    llm_model = Column(String, default="llama-3.1-70b-versatile")
+    llm_model = Column(String, default="qwen/qwen3.8-27b")
     temperature = Column(Float, default=0.0)
     max_tokens = Column(Integer, default=2048)
     
@@ -146,7 +146,7 @@ class AIAgent(Base):
     # Agent configuration
     system_prompt = Column(Text)
     tools = Column(JSON)  # List of available tools
-    model = Column(String, default="llama-3.1-70b-versatile")
+    model = Column(String, default="qwen/qwen3.8-27b")
     
     # Behavior
     max_iterations = Column(Integer, default=10)
