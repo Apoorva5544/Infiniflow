@@ -151,6 +151,21 @@ docker compose up --build
 
 Up brings the API, Celery worker, Redis, and the analytics dashboard.
 
+### 5. Render (production blueprint)
+
+A `render.yaml` blueprint deploys four connected services: the FastAPI
+backend (pgvector on Neon), a Celery worker, the Streamlit analytics dashboard,
+and the React UI (built with `VITE_API_URL` pointing at the API).
+
+1. Create an **Env Group** named `infiniflow` with the secrets:
+   `GROQ_API_KEY`, `JWT_SECRET`, `DATABASE_URL` (Neon), `REDIS_URL`.
+2. In the Render dashboard: **New → Blueprint** → point at this repo.
+   Render will propose the four services from `render.yaml`.
+
+The blueprint assumes default URLs (`<service>-onrender.com`); update
+`VITE_API_URL` and `CORS_ORIGINS` in `render.yaml` if you rename services.
+Tables bootstrap automatically on boot (`create_all`) for a fresh Neon DB.
+
 ## 🔍 Querying — API overview
 
 | Method | Route | Description |

@@ -1,14 +1,23 @@
 import os
 
+from dotenv import load_dotenv
 from celery import Celery
 
-REDIS_HOST = os.getenv("REDIS_HOST", "redis")
-REDIS_PORT = os.getenv("REDIS_PORT", "6379")
+load_dotenv(override=True)
+
+# Prefer REDIS_URL (Render/Upstash/Redis Cloud) over the host/port pair.
+REDIS_URL = os.getenv("REDIS_URL")
+if REDIS_URL:
+    broker_url = REDIS_URL
+else:
+    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+    REDIS_PORT = os.getenv("REDIS_PORT", "6379")
+    broker_url = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
 
 celery_app = Celery(
     "infiniflow",
-    broker=f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
-    backend=f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
+    broker=broker_url,
+    backend=broker_url,
 )
 
 celery_app.conf.update(

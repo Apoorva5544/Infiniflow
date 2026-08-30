@@ -81,8 +81,12 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     SENTRY_DSN: Optional[str] = None
 
-    # CORS
-    CORS_ORIGINS: list = ["http://localhost:3000", "http://localhost:5173"]
+    # CORS (comma-separated origin list; survives plain-string env vars)
+    CORS_ORIGINS: Optional[str] = "http://localhost:3000,http://localhost:5173"
+
+    @property
+    def cors_origins_list(self) -> list:
+        return [o.strip() for o in (self.CORS_ORIGINS or "").split(",") if o.strip()]
 
     # AI Agent Configuration
     MAX_AGENT_ITERATIONS: int = 10
