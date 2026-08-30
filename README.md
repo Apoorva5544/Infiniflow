@@ -145,27 +145,31 @@ streamlit run app.py
 
 ### 4. Docker
 
+`DATABASE_URL` / `REDIS_URL` are read from your shell when present, so the
+stack automatically uses Neon + cloud Redis; otherwise it falls back to the
+bundled SQLite + local `redis` container.
+
 ```bash
 docker compose up --build
 ```
 
-Up brings the API, Celery worker, Redis, and the analytics dashboard.
+Up brings the API (which also serves the built React UI), Celery worker,
+Redis, and the analytics dashboard. `docker compose up api --build` alone runs
+the whole app in a single container at http://localhost:8000.
 
 ### 5. Render (production blueprint)
 
-A `render.yaml` blueprint deploys four connected services: the FastAPI
-backend (pgvector on Neon), a Celery worker, the Streamlit analytics dashboard,
-and the React UI (built with `VITE_API_URL` pointing at the API).
+A `render.yaml` blueprint deploys three Docker services — the API (React UI
+built into the image and served at `/`), a Celery worker, and the Streamlit
+analytics dashboard. All three share one `infiniflow` Env Group.
 
 1. In the Render dashboard: **New → Blueprint** → point at this repo.
-   Render will propose the four services from `render.yaml`.
-2. During setup you're prompted once for the secret Env Group `infiniflow`
-   (`GROQ_API_KEY`, `DATABASE_URL`, `REDIS_URL`); `JWT_SECRET` is generated
-   automatically. Secrets are never stored in the repo.
+2. During setup you're prompted once for the secrets (`GROQ_API_KEY`,
+   `DATABASE_URL` for Neon, `REDIS_URL` for the cache/Celery broker);
+   `JWT_SECRET` is generated automatically. Secrets are never stored in the repo.
 
-The blueprint assumes default URLs (`<service>-onrender.com`); update
-`VITE_API_URL` and `CORS_ORIGINS` in `render.yaml` if you rename services.
-Tables bootstrap automatically on boot (`create_all`) for a fresh Neon DB.
+The React UI is same-origin with the API, so no `VITE_API_URL` build arg is
+needed. Tables bootstrap automatically on boot (`create_all`) for a fresh Neon DB.
 
 ## 🔍 Querying — API overview
 

@@ -6,7 +6,8 @@ services:
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
       - JWT_SECRET=${JWT_SECRET:-change-this-in-production}
-      - DATABASE_URL=sqlite:///./backend/infiniflow.db
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./backend/infiniflow.db}
+      - REDIS_URL=${REDIS_URL:-}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - CHROMA_PATH=./chroma_db
@@ -22,7 +23,8 @@ services:
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
       - JWT_SECRET=${JWT_SECRET:-change-this-in-production}
-      - DATABASE_URL=sqlite:///./backend/infiniflow.db
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./backend/infiniflow.db}
+      - REDIS_URL=${REDIS_URL:-}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - CHROMA_PATH=./chroma_db
@@ -47,6 +49,8 @@ services:
       - "8501:8501"
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./backend/infiniflow.db}
+      - REDIS_URL=${REDIS_URL:-}
     command: streamlit run app.py --server.port 8501 --server.address 0.0.0.0
     depends_on:
       - backend

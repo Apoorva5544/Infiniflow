@@ -19,6 +19,7 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -878,6 +879,21 @@ async def health_check():
         "cache_backend": type(semantic_cache).__name__,
         "timestamp": datetime.utcnow().isoformat(),
     }
+
+
+# ── Frontend (single-container deployment) ─────────────────────────────────────
+# Mount the built React app last so all API routes registered above take
+# priority. Runs only when the Vite `dist` output is present (i.e. the
+# multi-stage Docker image), so local API-only runs are unaffected.
+_SPA_DIST = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "dist"
+)
+if os.path.isdir(_SPA_DIST):
+    app.mount("/", StaticFiles(directory=_SPA_DIST, html=True), name="frontend")
+else:
+    logger.info(
+        "frontend/dist not found — API-only mode (use the Vite dev server for the UI)"
+    )
 
 
 if __name__ == "__main__":

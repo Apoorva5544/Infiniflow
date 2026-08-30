@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+// Same-origin by default (FastAPI serves the built UI).
+// Override with VITE_API_URL when the API is hosted separately.
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'https://infiniflow.onrender.com',
+    baseURL: import.meta.env.VITE_API_URL || '',
     headers: { 'Content-Type': 'application/json' },
 });
 

@@ -1,34 +1,40 @@
-# Production Dockerfile for Infiniflow Enterprise AI Platform
+# Multi-stage build: React frontend + FastAPI backend in one deployable image.
 
+# ── Stage 1: Build the React frontend ─────────────────────────────────────────
+FROM node:18-alpine AS frontend-builder
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
+
+# ── Stage 2: Python backend (serves the built UI as StaticFiles) ──────────────
 FROM python:3.11-slim
-
-# Set working directory
 WORKDIR /app
 
-# Install system dependencies
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+# System deps: build-essential for source-built wheels, curl for Docker health.
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
-COPY requirements.txt .
-
-# Install Python dependencies
+# Python deps — psycopg2-binary (Postgres/Neon driver) is pinned in requirements.
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+# Application code
+COPY backend/ ./backend/
+COPY ai_engine/ ./ai_engine/
+COPY rag_engine.py ./
+COPY app.py ./
 
-# Create necessary directories
-RUN mkdir -p chroma_db logs
+# Built frontend static assets
+COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# Expose port
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
-# Run application
-CMD ["uvicorn", "backend.main_v2:app", "--host", "0.0.0.0", "--port", "8000"]
+# Render sets PORT; docker compose uses the default 8000.
+CMD ["sh", "-c", "uvicorn backend.main_v2:app --host 0.0.0.0 --port ${PORT:-8000}"]
