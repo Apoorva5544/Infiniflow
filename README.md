@@ -157,10 +157,11 @@ A `render.yaml` blueprint deploys four connected services: the FastAPI
 backend (pgvector on Neon), a Celery worker, the Streamlit analytics dashboard,
 and the React UI (built with `VITE_API_URL` pointing at the API).
 
-1. Create an **Env Group** named `infiniflow` with the secrets:
-   `GROQ_API_KEY`, `JWT_SECRET`, `DATABASE_URL` (Neon), `REDIS_URL`.
-2. In the Render dashboard: **New → Blueprint** → point at this repo.
+1. In the Render dashboard: **New → Blueprint** → point at this repo.
    Render will propose the four services from `render.yaml`.
+2. During setup you're prompted once for the secret Env Group `infiniflow`
+   (`GROQ_API_KEY`, `DATABASE_URL`, `REDIS_URL`); `JWT_SECRET` is generated
+   automatically. Secrets are never stored in the repo.
 
 The blueprint assumes default URLs (`<service>-onrender.com`); update
 `VITE_API_URL` and `CORS_ORIGINS` in `render.yaml` if you rename services.
