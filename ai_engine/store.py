@@ -12,6 +12,7 @@ the rest of the platform (FastAPI backend + Streamlit app) is backend-agnostic.
 
 import os
 import shutil
+from threading import Lock
 from typing import List
 
 from dotenv import load_dotenv
@@ -19,6 +20,13 @@ from dotenv import load_dotenv
 # Load .env before reading VECTOR_STORE — import order must not decide the
 # backend (rag_engine's load_dotenv runs after this module is imported).
 load_dotenv(override=True)
+
+# In-process vector-store cache. Reconnecting / re-counting the store on every
+# request is wasteful (and slow on free-tier CPU) — reuse the loaded object
+# and invalidate it the moment the collection is written to or deleted.
+_vector_store_cache: dict = {}
+_vector_store_lock = Lock()
+_MAX_CACHED_STORES = 8
 
 
 def _store_type() -> str:
@@ -213,26 +221,51 @@ def stored_documents(collection_name: str) -> List:
 def create_vector_store(chunks, collection_name: str = "default"):
     """Creates/updates a named vector store (appends chunks)."""
     if _store_type() == "pgvector":
-        return _pg_create_vector_store(chunks, collection_name)
-    return _chroma_create_vector_store(chunks, collection_name)
+        store = _pg_create_vector_store(chunks, collection_name)
+    else:
+        store = _chroma_create_vector_store(chunks, collection_name)
+    with _vector_store_lock:
+        _vector_store_cache.pop(f"{_store_type()}:{collection_name}", None)
+    return store
 
 
 def get_vector_store(collection_name: str = "default"):
-    """Returns the named vector store, or None if it has no documents."""
+    """Returns the named vector store, or None if it has no documents.
+
+    Results are cached in-process and evicted on write/delete so re-opening
+    the store (and re-querying Postgres) doesn't happen on every request.
+    """
+    key = f"{_store_type()}:{collection_name}"
+    with _vector_store_lock:
+        if key in _vector_store_cache and _vector_store_cache[key] is not None:
+            return _vector_store_cache[key]
+
     if _store_type() == "pgvector":
         try:
-            return _pg_get_vector_store(collection_name)
+            store = _pg_get_vector_store(collection_name)
         except Exception as e:
             print(f"[store] pgvector load failed for {collection_name}: {e}")
-            return None
-    return _chroma_get_vector_store(collection_name)
+            store = None
+    else:
+        store = _chroma_get_vector_store(collection_name)
+
+    with _vector_store_lock:
+        if store is not None:
+            _vector_store_cache[key] = store
+            if len(_vector_store_cache) > _MAX_CACHED_STORES:
+                _vector_store_cache.pop(next(iter(_vector_store_cache)))
+        return store
 
 
 def delete_collection(collection_name: str) -> bool:
     """Deletes a named collection."""
     if _store_type() == "pgvector":
-        return _pg_delete_collection(collection_name)
-    return _chroma_delete_collection(collection_name)
+        ok = _pg_delete_collection(collection_name)
+    else:
+        ok = _chroma_delete_collection(collection_name)
+    with _vector_store_lock:
+        _vector_store_cache.pop(f"{_store_type()}:{collection_name}", None)
+    return ok
 
 
 def list_collections() -> List[str]:

@@ -29,7 +29,7 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-import os, shutil, tempfile, time, logging, json
+import os, shutil, tempfile, time, logging, json, asyncio
 
 from . import models, auth
 from .database import engine, get_db
@@ -49,7 +49,6 @@ from rag_engine import (
     list_collections,
     delete_collection,
 )
-from ai_engine.advanced_rag import AdvancedRAGEngine, RAGEvaluator
 from ai_engine.semantic_cache import get_semantic_cache
 from ai_engine.reranker import CrossEncoderReranker
 
@@ -538,11 +537,9 @@ async def query_workspace(
                 status_code=404, detail="No documents in this Knowledge Layer"
             )
 
-        # Advanced RAG: strategy resolution ("auto" = direct retrieval, no extra LLM round-trips)
-        advanced_rag = AdvancedRAGEngine(vs, ws.llm_model)
+        # Advanced RAG: "auto" = direct retrieval, no extra LLM round-trips
         strategy = query_req.strategy if query_req.strategy != "auto" else "simple"
         logger.info(f"Query started [{strategy}]: {query_req.question[:50]}")
-        documents = advanced_rag.adaptive_retrieval(query_req.question, strategy)
 
         # Hybrid retriever (60/40 vector/BM25) + history-aware chain
         retriever = get_hybrid_retriever(vs)
@@ -553,6 +550,7 @@ async def query_workspace(
                 "chat_history": query_req.chat_history,
             }
         )
+        documents = response.get("context", []) or []
 
         latency = (time.time() - start) * 1000
 
@@ -684,74 +682,101 @@ async def query_workspace_stream(
             return StreamingResponse(cached_stream(), media_type="text/event-stream")
 
     start = time.time()
-    collection_name = f"ws_{workspace_id}"
-    vs = get_vector_store(collection_name)
-    if not vs:
-        raise HTTPException(
-            status_code=404, detail="No documents in this Knowledge Layer"
-        )
-
     llm_key = os.getenv("GROQ_API_KEY", "").strip("\"' ")
-    llm = ChatGroq(
-        temperature=ws.temperature or 0.0,
-        model_name=ws.llm_model,
-        groq_api_key=llm_key,
-    )
     history = _to_history(query_req.chat_history)
-
-    # 1. History-aware reformulation (standalone question)
-    standalone = query_req.question
-    if history:
-        try:
-            standalone = (
-                llm.invoke(
-                    [
-                        SystemMessage(CONTEXTUALIZE_SYSTEM_PROMPT),
-                        *history,
-                        HumanMessage(query_req.question),
-                    ]
-                ).content.strip()
-                or standalone
-            )
-        except Exception as e:
-            logger.warning(f"Reformulation failed, using raw question: {e}")
-
-    # 2. Hybrid retrieval + cross-encoder rerank
-    try:
-        retriever = get_hybrid_retriever(vs)
-        docs = retriever.invoke(standalone)
-    except Exception as e:
-        logger.error(f"Retrieval failed for streaming query: {e}")
-        raise HTTPException(status_code=500, detail=f"Retrieval failed: {str(e)}")
-
+    use_rerank = os.getenv("ENABLE_RERANKER", "true").lower() in {"1", "true", "yes"}
     reranker_top_k = int(os.getenv("RERANKER_TOP_K", "5"))
-    reranked = CrossEncoderReranker(top_k=reranker_top_k).compress_documents(
-        docs, standalone
-    )
-    if not reranked:
-        reranked = docs[:reranker_top_k]
+    collection_name = f"ws_{workspace_id}"
 
-    citations = _build_citations(reranked)
-    context_block = _numbered_context(reranked)
-    messages = [
-        SystemMessage(QA_SYSTEM_PROMPT.format(context=context_block)),
-        *history,
-        HumanMessage(query_req.question),
-    ]
-
-    # 3. Stream generation
+    # Stream generation. The first byte is sent IMMEDIATELY, then retrieval,
+    # reformulation and generation run inline. Keeping data flowing means
+    # Render's proxy never applies its whole-response timeout to this route —
+    # the #1 cause of the 502s on the sync endpoint during free-tier cold starts.
     async def event_stream() -> AsyncGenerator[str, None]:
-        yield _sse(
-            "sources",
-            {
-                "type": "sources",
-                "citations": citations,
-                "strategy_used": "hybrid+rerank",
-                "documents_retrieved": len(reranked),
-                "cached": False,
-            },
-        )
+        yield _sse("start", {"type": "start"})
 
+        # 2. Retrieval (inside the stream, so first-byte latency is ~zero)
+        try:
+            vs = get_vector_store(collection_name)
+            if not vs:
+                yield _sse(
+                    "error",
+                    {
+                        "type": "error",
+                        "detail": "No documents in this Knowledge Layer",
+                    },
+                )
+                return
+
+            llm = ChatGroq(
+                temperature=ws.temperature or 0.0,
+                model_name=ws.llm_model,
+                groq_api_key=llm_key,
+            )
+
+            # History-aware reformulation (standalone question)
+            standalone = query_req.question
+            if history:
+                try:
+                    resp = await asyncio.to_thread(
+                        llm.invoke,
+                        [
+                            SystemMessage(CONTEXTUALIZE_SYSTEM_PROMPT),
+                            *history,
+                            HumanMessage(query_req.question),
+                        ],
+                    )
+                    standalone = (resp.content or "").strip() or query_req.question
+                except Exception as e:
+                    logger.warning(f"Reformulation failed, using raw question: {e}")
+
+            retriever = get_hybrid_retriever(vs)
+            docs = await asyncio.to_thread(retriever.invoke, standalone)
+            if use_rerank:
+                reranked = await asyncio.to_thread(
+                    CrossEncoderReranker(top_k=reranker_top_k).compress_documents,
+                    docs,
+                    standalone,
+                )
+            else:
+                reranked = []
+                for i, d in enumerate(docs[:reranker_top_k]):
+                    d.metadata["rerank_rank"] = i
+                    d.metadata["rerank_score"] = None
+                    reranked.append(d)
+            if not reranked:
+                reranked = docs[:reranker_top_k]
+
+            citations = _build_citations(reranked)
+            context_block = _numbered_context(reranked)
+            messages = [
+                SystemMessage(QA_SYSTEM_PROMPT.format(context=context_block)),
+                *history,
+                HumanMessage(query_req.question),
+            ]
+
+            yield _sse(
+                "sources",
+                {
+                    "type": "sources",
+                    "citations": citations,
+                    "strategy_used": "hybrid" if not use_rerank else "hybrid+rerank",
+                    "documents_retrieved": len(reranked),
+                    "cached": False,
+                },
+            )
+        except HTTPException as e:
+            logger.error(f"Retrieval failed for streaming query: {e.detail}")
+            yield _sse("error", {"type": "error", "detail": e.detail})
+            return
+        except Exception as e:
+            logger.error(f"Retrieval failed for streaming query: {e}")
+            yield _sse(
+                "error", {"type": "error", "detail": f"Retrieval failed: {str(e)}"}
+            )
+            return
+
+        # 3. Stream generation
         answer_parts: List[str] = []
         error_detail = None
         try:
@@ -802,7 +827,7 @@ async def query_workspace_stream(
                     "answer": answer,
                     "sources": [c["source"] for c in citations],
                     "citations": citations,
-                    "strategy_used": "hybrid+rerank",
+                    "strategy_used": "hybrid" if not use_rerank else "hybrid+rerank",
                 },
                 workspace_id,
             )

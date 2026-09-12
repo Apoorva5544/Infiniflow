@@ -36,9 +36,17 @@ services:
         value: production
       - key: CORS_ORIGINS
         value: http://localhost:3000,http://localhost:5173
+      # Cross-encoder reranking is CPU-heavy and slow under free-tier throttling.
+      # The hybrid (vector + BM25) retriever already gives good results; flip to
+      # "true" only on a non-throttled plan.
+      - key: ENABLE_RERANKER
+        value: "false"
       - fromGroup: infiniflow
 
   # ── Celery worker (async ingestion; broker = REDIS_URL) ────────────────────
+  # NOTE: "0.5c-512mb" is a PAID plan. If you are on the free tier only, delete
+  # this service in the Render dashboard or it will bill you. Ingestion in
+  # main_v2.py currently runs synchronously anyway, so the worker is optional.
   - type: worker
     name: infiniflow-celery
     runtime: docker

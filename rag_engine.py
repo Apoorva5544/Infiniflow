@@ -1,4 +1,5 @@
 import os
+from threading import Lock
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_groq import ChatGroq
@@ -14,6 +15,15 @@ from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 from ai_engine.reranker import CrossEncoderReranker
 from ai_engine import store as _store
 import time
+
+# In-process hybrid-retriever cache. Building BM25 requires pulling every
+# document out of the store and re-indexing it — doing that per request is a
+# big waste on free-tier CPU. Keyed by vector-store object identity: the store
+# cache in ai_engine.store hands out a NEW object after every upload/delete, so
+# a stale key can never survive a write and a reused object hits the cache.
+_retriever_cache: dict = {}
+_retriever_lock = Lock()
+_MAX_RETRIEVERS = 6
 
 
 class _OnnxMiniLMEmbeddings:
@@ -64,7 +74,9 @@ def list_collections():
 
 def create_vector_store(chunks, collection_name="default"):
     """Creates/Updates a named Chroma/pgvector vector database (appends chunks)."""
-    return _store.create_vector_store(chunks, collection_name)
+    store = _store.create_vector_store(chunks, collection_name)
+    _invalidate_retrievers()
+    return store
 
 
 def get_vector_store(collection_name="default"):
@@ -73,8 +85,17 @@ def get_vector_store(collection_name="default"):
 
 
 def delete_collection(collection_name):
-    """Deletes a named collection."""
-    return _store.delete_collection(collection_name)
+    """Deletes a named collection and drops its cached retriever."""
+    try:
+        return _store.delete_collection(collection_name)
+    finally:
+        _invalidate_retrievers()
+
+
+def _invalidate_retrievers():
+    """Drop cached hybrid retrievers (keyed by store object identity)."""
+    with _retriever_lock:
+        _retriever_cache.clear()
 
 
 def _stored_documents(vector_store):
@@ -113,7 +134,27 @@ def _stored_documents(vector_store):
 
 
 def get_hybrid_retriever(vector_store, chunks=None):
-    """Creates a Hybrid Retriever combining Vector and BM25 search."""
+    """Creates a Hybrid Retriever combining Vector and BM25 search.
+
+    The expensive part (pulling all documents out of the store + building the
+    BM25 index) is memoized per vector-store object. The store cache hands out
+    a new object whenever documents are added, so uploads always see fresh data.
+    """
+    key = id(vector_store)
+    with _retriever_lock:
+        cached = _retriever_cache.get(key)
+    if cached is not None:
+        return cached
+
+    retriever = _build_hybrid_retriever(vector_store, chunks)
+    with _retriever_lock:
+        _retriever_cache[key] = retriever
+        if len(_retriever_cache) > _MAX_RETRIEVERS:
+            _retriever_cache.pop(next(iter(_retriever_cache)))
+    return retriever
+
+
+def _build_hybrid_retriever(vector_store, chunks=None):
     # 1. Vector Retriever
     vector_retriever = vector_store.as_retriever(search_kwargs={"k": 5})
 

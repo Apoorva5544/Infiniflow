@@ -13,7 +13,9 @@ FROM python:3.11-slim
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    HF_HOME=/root/.cache/huggingface \
+    HF_HUB_DISABLE_TELEMETRY=1
 
 # System deps: build-essential for source-built wheels, curl for Docker health.
 RUN apt-get update && apt-get install -y \
@@ -24,6 +26,11 @@ RUN apt-get update && apt-get install -y \
 # Python deps — psycopg2-binary (Postgres/Neon driver) is pinned in requirements.
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Pre-download ML models (embeddings, semantic-cache, reranker) at build time so
+# first-use requests after a cold start never stall on runtime downloads.
+COPY scripts/ ./scripts/
+RUN python scripts/preload_models.py
 
 # Application code
 COPY backend/ ./backend/
