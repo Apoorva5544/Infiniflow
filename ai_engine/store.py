@@ -40,10 +40,9 @@ def _store_type() -> str:
             "production",
             "prod",
         }
-        allow_ephemeral = (
-            os.getenv("ALLOW_EPHEMERAL_CHROMA", "false").strip().lower()
-            in {"1", "true", "yes"}
-        )
+        allow_ephemeral = os.getenv(
+            "ALLOW_EPHEMERAL_CHROMA", "false"
+        ).strip().lower() in {"1", "true", "yes"}
         if is_prod and not allow_ephemeral:
             raise RuntimeError(
                 "VECTOR_STORE is unset/'chroma' in a production environment — "
