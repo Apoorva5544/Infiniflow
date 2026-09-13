@@ -38,7 +38,7 @@ function Message({ msg }) {
     if (isUser) {
         return (
             <div className="flex justify-end mb-4 animate-fade-in">
-                <div className="max-w-[70%] px-4 py-3 rounded-2xl rounded-tr-sm bg-brand-600 text-white text-sm">
+                <div className="max-w-[70%] px-4 py-3 rounded-2xl rounded-tr-sm bg-emerald-600 text-white text-sm shadow-sm">
                     {msg.text}
                 </div>
             </div>
@@ -48,7 +48,7 @@ function Message({ msg }) {
     if (msg.type === 'error') {
         return (
             <div className="flex mb-4 animate-fade-in">
-                <div className="max-w-[80%] px-4 py-3 rounded-2xl rounded-tl-sm bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                <div className="max-w-[80%] px-4 py-3 rounded-2xl rounded-tl-sm bg-red-50 border border-red-200 text-red-600 text-sm">
                     ⚠️ {msg.text}
                 </div>
             </div>
@@ -58,7 +58,7 @@ function Message({ msg }) {
     if (msg.type === 'system') {
         return (
             <div className="flex justify-center mb-4 animate-fade-in">
-                <span className="badge bg-brand-500/10 text-brand-400 text-xs">✓ {msg.text}</span>
+                <span className="badge bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs">✓ {msg.text}</span>
             </div>
         );
     }
@@ -66,35 +66,35 @@ function Message({ msg }) {
     // AI answer
     return (
         <div className="flex mb-6 animate-fade-in">
-            <div className="w-7 h-7 rounded-full bg-brand-600/20 border border-brand-500/30 flex items-center justify-center text-brand-400 text-xs font-bold shrink-0 mr-3 mt-0.5">
+            <div className="w-7 h-7 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-500 text-xs font-bold shrink-0 mr-3 mt-0.5">
                 AI
             </div>
             <div className="max-w-[80%] space-y-3">
-                <div className="px-4 py-3 rounded-2xl rounded-tl-sm glass text-sm ai-answer">
+                <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-white border border-slate-200 shadow-sm text-sm ai-answer">
                     <div dangerouslySetInnerHTML={{ __html: formatAnswer(msg.text) }} />
-                    {!msg.text && <span className="text-gray-500 animate-pulse">Thinking…</span>}
+                    {!msg.text && <span className="text-slate-400 animate-pulse">Thinking…</span>}
                 </div>
 
                 {/* Metadata row */}
                 {(msg.sources?.length > 0 || msg.latency_ms || msg.strategy_used) && (
                     <div className="flex flex-wrap gap-2">
                         {msg.strategy_used && (
-                            <span className="badge bg-purple-500/10 text-purple-400">
+                            <span className="badge bg-teal-50 text-teal-700 border border-teal-200">
                                 🧠 {msg.strategy_used}
                             </span>
                         )}
                         {msg.latency_ms && (
-                            <span className="badge bg-blue-500/10 text-blue-400">
+                            <span className="badge bg-blue-50 text-blue-700 border border-blue-200">
                                 ⚡ {msg.latency_ms}ms
                             </span>
                         )}
                         {msg.relevance_score !== undefined && (
-                            <span className="badge bg-amber-500/10 text-amber-400">
+                            <span className="badge bg-amber-50 text-amber-700 border border-amber-200">
                                 📊 {(msg.relevance_score * 100).toFixed(0)}% relevance
                             </span>
                         )}
                         {msg.cached && (
-                            <span className="badge bg-teal-500/10 text-teal-400">⚡ cached</span>
+                            <span className="badge bg-emerald-50 text-emerald-700 border border-emerald-200">⚡ cached</span>
                         )}
                     </div>
                 )}
@@ -102,24 +102,24 @@ function Message({ msg }) {
                 {/* Citations */}
                 {msg.citations?.length > 0 && (
                     <div>
-                        <p className="text-xs text-gray-600 mb-1.5">Citations</p>
+                        <p className="text-xs text-slate-500 mb-1.5">Citations</p>
                         <div className="space-y-1.5">
                             {msg.citations.map((c, i) => (
-                                <details key={i} className="rounded-xl bg-white/[0.03] border border-white/[0.08] px-3 py-2 group open:bg-white/[0.05]">
+                                <details key={i} className="rounded-xl bg-white border border-slate-200 px-3 py-2 group open:shadow-sm">
                                     <summary className="cursor-pointer list-none flex items-center justify-between gap-2 text-xs">
                                         <span className="flex items-center gap-1.5 min-w-0">
                                             <span>📄</span>
-                                            <span className="text-gray-300 truncate">{c.source}</span>
-                                            {c.page != null && <span className="text-gray-600 shrink-0">· p.{c.page}</span>}
+                                            <span className="text-slate-700 truncate">{c.source}</span>
+                                            {c.page != null && <span className="text-slate-400 shrink-0">· p.{c.page}</span>}
                                         </span>
                                         <span className="flex items-center gap-2 shrink-0">
                                             {typeof c.relevance_score === 'number' && (
-                                                <span className="text-brand-400">{(c.relevance_score * 100).toFixed(0)}%</span>
+                                                <span className="text-emerald-600 font-semibold">{(c.relevance_score * 100).toFixed(0)}%</span>
                                             )}
-                                            <span className="text-gray-600">▾</span>
+                                            <span className="text-slate-400">▾</span>
                                         </span>
                                     </summary>
-                                    <p className="text-[11px] text-gray-500 mt-1.5 leading-relaxed">{c.chunk_text}</p>
+                                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">{c.chunk_text}</p>
                                 </details>
                             ))}
                         </div>
@@ -129,10 +129,10 @@ function Message({ msg }) {
                 {/* Sources (legacy list, shown only when structured citations are absent) */}
                 {!msg.citations?.length && msg.sources?.length > 0 && (
                     <div>
-                        <p className="text-xs text-gray-600 mb-1.5">Sources</p>
+                        <p className="text-xs text-slate-500 mb-1.5">Sources</p>
                         <div className="flex flex-wrap gap-1.5">
                             {msg.sources.map((s, i) => (
-                                <span key={i} className="badge bg-white/[0.04] text-gray-400 border border-white/[0.08]">
+                                <span key={i} className="badge bg-slate-50 text-slate-600 border border-slate-200">
                                     📄 {s}
                                 </span>
                             ))}
@@ -149,10 +149,10 @@ function formatAnswer(text) {
     // Simple markdown-like rendering
     return text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\[(\d+)\]/g, '<sup class="text-brand-400 font-semibold">[$1]</sup>')
-        .replace(/^#{1,3} (.+)$/gm, '<h3 class="font-semibold text-white mt-2 mb-1">$1</h3>')
+        .replace(/\[(\d+)\]/g, '<sup class="text-emerald-600 font-semibold">[$1]</sup>')
+        .replace(/^#{1,3} (.+)$/gm, '<h3 class="font-semibold text-slate-900 mt-2 mb-1">$1</h3>')
         .replace(/^- (.+)$/gm, '<li>$1</li>')
-        .replace(/`([^`]+)`/g, '<code class="font-mono text-xs bg-white/[0.08] px-1.5 py-0.5 rounded text-brand-300">$1</code>')
+        .replace(/`([^`]+)`/g, '<code class="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded text-emerald-700">$1</code>')
         .replace(/\n\n/g, '</p><p class="mb-3">')
         .replace(/\n/g, '<br/>');
 }
@@ -201,20 +201,20 @@ async function streamQuery(workspaceId, payload, handlers) {
 // ── Document list item ─────────────────────────────────────────────────────────
 function DocItem({ doc }) {
     const statusColor = {
-        processed: 'text-brand-400 bg-brand-500/10',
-        processing: 'text-amber-400 bg-amber-500/10',
-        failed: 'text-red-400 bg-red-500/10',
-    }[doc.status] || 'text-gray-400 bg-gray-500/10';
+        processed: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+        processing: 'text-amber-700 bg-amber-50 border-amber-200',
+        failed: 'text-red-700 bg-red-50 border-red-200',
+    }[doc.status] || 'text-slate-600 bg-slate-50 border-slate-200';
 
     return (
-        <div className="flex items-start gap-2 p-2.5 rounded-xl hover:bg-white/[0.03] transition-colors group">
-            <span className="text-gray-500 mt-0.5 shrink-0"><File /></span>
+        <div className="flex items-start gap-2 p-2.5 rounded-lg hover:bg-slate-50 transition-colors group">
+            <span className="text-slate-400 mt-0.5 shrink-0"><File /></span>
             <div className="min-w-0 flex-1">
-                <p className="text-xs text-gray-300 truncate font-medium">{doc.filename}</p>
+                <p className="text-xs text-slate-800 truncate font-medium">{doc.filename}</p>
                 <div className="flex items-center gap-2 mt-1">
-                    <span className={`badge text-[10px] ${statusColor}`}>{doc.status}</span>
+                    <span className={`badge text-[10px] border ${statusColor}`}>{doc.status}</span>
                     {doc.chunk_count > 0 && (
-                        <span className="text-[10px] text-gray-600">{doc.chunk_count} chunks</span>
+                        <span className="text-[10px] text-slate-400">{doc.chunk_count} chunks</span>
                     )}
                 </div>
             </div>
@@ -358,33 +358,32 @@ export default function Workspace() {
     };
 
     return (
-        <div className="flex h-screen bg-gray-950 overflow-hidden">
-
+        <div className="flex h-screen bg-white overflow-hidden">
             {/* ── Left sidebar: doc list ── */}
-            <aside className="w-64 shrink-0 border-r border-white/[0.06] flex flex-col bg-gray-950">
-                <div className="p-4 border-b border-white/[0.06]">
+            <aside className="w-64 shrink-0 border-r border-slate-200/80 flex flex-col bg-white">
+                <div className="p-4 border-b border-slate-200/80">
                     <button
-                        onClick={() => navigate('/')}
-                        className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm mb-4"
+                        onClick={() => navigate('/workspaces')}
+                        className="flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors text-sm mb-4"
                     >
                         <ArrowLeft /> Back
                     </button>
                     {workspace && (
                         <div>
-                            <h2 className="text-white font-semibold text-sm truncate">{workspace.name}</h2>
-                            <p className="text-gray-500 text-xs mt-0.5">{workspace.llm_model}</p>
+                            <h2 className="font-headline-md text-slate-900 font-bold text-sm truncate">{workspace.name}</h2>
+                            <p className="font-label-mono-xs text-slate-500 text-xs mt-0.5">{workspace.llm_model}</p>
                         </div>
                     )}
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-3">
                     <div className="flex items-center justify-between mb-2">
-                        <p className="text-xs text-gray-500 uppercase tracking-wider font-medium">Documents</p>
-                        <span className="text-xs text-gray-600">{workspace?.documents?.length || 0}</span>
+                        <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Documents</p>
+                        <span className="text-xs text-slate-400">{workspace?.documents?.length || 0}</span>
                     </div>
 
                     {workspace?.documents?.length === 0 ? (
-                        <p className="text-xs text-gray-600 text-center py-6">No documents yet</p>
+                        <p className="text-xs text-slate-400 text-center py-6">No documents yet</p>
                     ) : (
                         <div className="space-y-0.5">
                             {workspace?.documents?.map(doc => <DocItem key={doc.id} doc={doc} />)}
@@ -392,7 +391,7 @@ export default function Workspace() {
                     )}
                 </div>
 
-                <div className="p-4 border-t border-white/[0.06]">
+                <div className="p-4 border-t border-slate-200/80">
                     <label className={`btn-primary w-full justify-center cursor-pointer ${uploading ? 'opacity-60 pointer-events-none' : ''}`}>
                         {uploading ? <><Spinner /> Ingesting...</> : <><Upload /> Ingest Document</>}
                         <input ref={fileInputRef} type="file" hidden accept=".pdf,.docx,.txt,.md" onChange={handleUpload} disabled={uploading} />
@@ -403,34 +402,34 @@ export default function Workspace() {
             {/* ── Chat area ── */}
             <div className="flex-1 flex flex-col min-w-0">
                 {/* Chat header */}
-                <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+                <div className="px-6 py-4 border-b border-slate-200/80 flex items-center gap-3">
                     <div className="flex-1">
-                        <h1 className="text-white font-semibold text-sm">
+                        <h1 className="font-headline-md text-slate-900 font-bold text-sm">
                             {workspace?.name || 'Loading...'}
                         </h1>
-                        <p className="text-gray-500 text-xs">
+                        <p className="text-slate-500 text-xs">
                             Hybrid Retrieval · Vector + BM25 + Cross-encoder rerank · Streaming with citations
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <span className="badge bg-brand-500/10 text-brand-400">
-                            <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse-slow" />
-                            Groq · Llama 3.1
+                        <span className="badge bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-slow" />
+                            {workspace?.llm_model || 'Groq'}
                         </span>
                     </div>
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto px-6 py-6">
+                <div className="flex-1 overflow-y-auto px-6 py-6 bg-slate-50/50">
                     {messages.length === 0 && (
                         <div className="h-full flex flex-col items-center justify-center text-center animate-fade-in">
-                            <div className="w-16 h-16 rounded-2xl bg-brand-600/10 border border-brand-500/20 flex items-center justify-center text-brand-400 mb-4">
+                            <div className="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200/70 flex items-center justify-center text-emerald-600 mb-4">
                                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
                                 </svg>
                             </div>
-                            <h3 className="text-white font-semibold mb-2">Ready to query</h3>
-                            <p className="text-gray-500 text-sm max-w-xs">
+                            <h3 className="font-headline-lg text-slate-900 font-bold mb-2">Ready to query</h3>
+                            <p className="text-slate-500 text-sm max-w-xs">
                                 Upload documents to this Knowledge Layer, then ask anything. The hybrid retriever will find the most relevant context.
                             </p>
                         </div>
@@ -440,10 +439,10 @@ export default function Workspace() {
 
                     {querying && (
                         <div className="flex mb-4 animate-fade-in">
-                            <div className="w-7 h-7 rounded-full bg-brand-600/20 border border-brand-500/30 flex items-center justify-center text-brand-400 text-xs font-bold shrink-0 mr-3">
+                            <div className="w-7 h-7 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-500 text-xs font-bold shrink-0 mr-3">
                                 AI
                             </div>
-                            <div className="px-4 py-3 rounded-2xl glass flex items-center gap-2 text-gray-400 text-sm">
+                            <div className="px-4 py-3 rounded-2xl bg-white border border-slate-200 flex items-center gap-2 text-slate-500 text-sm shadow-sm">
                                 <Spinner />
                                 Retrieving & synthesizing...
                             </div>
@@ -454,7 +453,7 @@ export default function Workspace() {
                 </div>
 
                 {/* Input */}
-                <div className="px-6 pb-6">
+                <div className="px-6 pb-6 py-4 border-t border-slate-200/80 bg-white">
                     <form onSubmit={handleQuery} className="relative">
                         <input
                             value={question}
@@ -467,12 +466,12 @@ export default function Workspace() {
                         <button
                             type="submit"
                             disabled={querying || !question.trim()}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-brand-600 hover:bg-brand-500 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center text-white transition-all"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center text-white transition-all"
                         >
                             {querying ? <Spinner size={4} /> : <Send />}
                         </button>
                     </form>
-                    <p className="text-center text-xs text-gray-700 mt-2">
+                    <p className="text-center text-xs text-slate-400 mt-2">
                         EnsembleRetriever · BM25 + ChromaDB · Cross-encoder rerank · SSE streaming · Source citations
                     </p>
                 </div>

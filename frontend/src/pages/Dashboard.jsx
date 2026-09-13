@@ -40,29 +40,29 @@ function WorkspaceCard({ ws, onClick, onDelete }) {
     return (
         <div
             onClick={onClick}
-            className="card glass-hover cursor-pointer group relative animate-fade-in"
+            className="cursor-pointer group animate-fade-in rounded-xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all p-5 relative"
         >
             <button
                 onClick={e => { e.stopPropagation(); onDelete(ws); }}
-                className="absolute top-4 right-4 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 hover:bg-red-400/10 transition-all duration-150"
+                className="absolute top-4 right-4 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all duration-150"
                 title="Delete workspace"
             >
                 {icons.trash}
             </button>
 
             <div className="flex items-start gap-4 mb-4">
-                <div className="p-2.5 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 shrink-0">
+                <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200/70 text-emerald-600 shrink-0">
                     {icons.folder}
                 </div>
                 <div className="min-w-0">
-                    <h3 className="text-white font-semibold truncate pr-6">{ws.name}</h3>
+                    <h3 className="font-headline-md text-slate-900 font-bold truncate pr-6">{ws.name}</h3>
                     {ws.description && (
-                        <p className="text-gray-500 text-xs mt-0.5 line-clamp-1">{ws.description}</p>
+                        <p className="text-slate-500 text-xs mt-0.5 line-clamp-1">{ws.description}</p>
                     )}
                 </div>
             </div>
 
-            <div className="flex items-center gap-4 text-xs text-gray-500">
+            <div className="flex items-center gap-4 text-xs text-slate-500 font-label-mono-xs">
                 <span className="flex items-center gap-1.5">
                     {icons.docs}
                     {ws.total_documents} docs
@@ -73,12 +73,12 @@ function WorkspaceCard({ ws, onClick, onDelete }) {
                 </span>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-white/[0.05] flex items-center justify-between">
-                <span className="text-xs text-gray-600">
+            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-xs text-slate-500">
                     {new Date(ws.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </span>
-                <span className="badge bg-brand-500/10 text-brand-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse-slow" />
+                <span className="badge bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-slow" />
                     Active
                 </span>
             </div>
@@ -142,116 +142,138 @@ export default function Dashboard({ user, onLogout }) {
     const totalQueries = workspaces.reduce((s, w) => s + w.total_queries, 0);
 
     return (
-        <div className="flex min-h-screen bg-gray-950">
-            {/* ── Sidebar ── */}
-            <aside className="w-64 shrink-0 border-r border-white/[0.06] flex flex-col p-5 bg-gray-950">
-
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="w-8 h-8 rounded-xl bg-brand-600/20 border border-brand-500/30 flex items-center justify-center">
-                        <svg className="w-4 h-4 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
-                        </svg>
+        <div className="min-h-screen bg-white">
+            {/* ── Header ── */}
+            <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+                <div className="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                        <a href="/landing.html" className="flex items-center gap-3">
+                            <div className="h-9 w-9 rounded-lg overflow-hidden flex items-center justify-center bg-slate-900 border border-slate-800 shadow-sm shrink-0">
+                                <svg className="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
+                                </svg>
+                            </div>
+                            <span className="font-headline-md text-xl font-extrabold text-slate-900 tracking-tight">InfiniFlow</span>
+                        </a>
+                        <span className="hidden xl:inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/60 font-label-mono-xs text-xs font-semibold text-emerald-700 uppercase tracking-wider">
+                            PRODUCTION RAG PLATFORM
+                        </span>
                     </div>
-                    <div>
-                        <p className="text-white font-semibold text-sm leading-none">KnowledgeFlow</p>
-                        <p className="text-gray-600 text-xs">RAG Platform</p>
-                    </div>
-                </div>
 
-                <nav className="flex-1 space-y-1">
-                    <div className="sidebar-item active">
-                        {icons.folder}
-                        Knowledge Layers
-                    </div>
-                </nav>
+                    <nav className="hidden lg:flex items-center gap-1">
+                        <a className="px-3.5 py-2 text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg bg-emerald-50 text-emerald-700" href="#/workspaces">
+                            Knowledge Layers
+                        </a>
+                    </nav>
 
-                <div className="border-t border-white/[0.06] pt-4 mt-4">
-                    <div className="flex items-center gap-3 mb-3">
-                        <div className="w-8 h-8 rounded-full bg-brand-600/20 flex items-center justify-center text-brand-400 text-xs font-bold">
-                            {user.full_name?.[0]?.toUpperCase() || 'U'}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <a className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/70 transition-all font-label-mono-xs text-xs font-medium" href="/landing.html">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Live: infiniflow.onrender.com
+                        </a>
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-500 text-xs font-bold">
+                                {user.full_name?.[0]?.toUpperCase() || 'U'}
+                            </div>
+                            <div className="hidden sm:block">
+                                <p className="text-sm font-medium text-slate-900 leading-none">{user.full_name}</p>
+                                <p className="text-xs text-slate-500">{user.email}</p>
+                            </div>
                         </div>
-                        <div className="min-w-0">
-                            <p className="text-white text-xs font-medium truncate">{user.full_name}</p>
-                            <p className="text-gray-500 text-xs truncate">{user.email}</p>
-                        </div>
-                    </div>
-                    <button onClick={onLogout} className="sidebar-item w-full text-red-400 hover:text-red-300 hover:bg-red-400/10">
-                        {icons.logout} Sign out
-                    </button>
-                </div>
-            </aside>
-
-            {/* ── Main ── */}
-            <main className="flex-1 overflow-y-auto">
-                <div className="max-w-6xl mx-auto px-8 py-8">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-8">
-                        <div>
-                            <h1 className="text-2xl font-bold text-white">Knowledge Layers</h1>
-                            <p className="text-gray-500 text-sm mt-0.5">Isolated RAG workspaces with hybrid retrieval</p>
-                        </div>
-                        <button onClick={() => setShowModal(true)} className="btn-primary">
-                            {icons.plus} New Layer
+                        <button onClick={onLogout} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-colors font-body-sm text-sm font-medium">
+                            {icons.logout}
+                            <span className="hidden sm:inline">Sign out</span>
                         </button>
                     </div>
+                </div>
+            </header>
 
-                    {/* Stats row */}
-                    <div className="grid grid-cols-3 gap-4 mb-8">
-                        {[
-                            { label: 'Knowledge Layers', value: workspaces.length },
-                            { label: 'Documents Ingested', value: totalDocs },
-                            { label: 'Total Queries', value: totalQueries },
-                        ].map(stat => (
-                            <div key={stat.label} className="card">
-                                <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">{stat.label}</p>
-                                <p className="text-3xl font-bold text-white">{stat.value}</p>
+            {/* ── Main ── */}
+            <main className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <div className="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1">
+                            WORKSPACE TELEMETRY: ACTIVE RUNTIME
+                        </div>
+                        <h1 className="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight">Knowledge Layers</h1>
+                        <p className="font-body-md text-base text-slate-500 mt-1">Isolated RAG workspaces with hybrid retrieval</p>
+                    </div>
+                    <button onClick={() => setShowModal(true)} className="btn-primary">
+                        {icons.plus} New Layer
+                    </button>
+                </div>
+
+                {/* Stats row */}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 mb-8">
+                    {[
+                        { label: 'Knowledge Layers', value: workspaces.length, accent: 'text-emerald-600' },
+                        { label: 'Documents Ingested', value: totalDocs, accent: 'text-teal-600' },
+                        { label: 'Total Queries', value: totalQueries, accent: 'text-cyan-600' },
+                    ].map(stat => (
+                        <div key={stat.label} className="p-5 rounded-xl bg-slate-50/80 border border-slate-200/80">
+                            <p className="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium mb-1.5">{stat.label}</p>
+                            <p className={`font-headline-lg text-3xl font-extrabold tracking-tight ${stat.accent}`}>{stat.value}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Workspace grid */}
+                {loading ? (
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[1, 2, 3].map(i => (
+                            <div key={i} className="rounded-xl bg-white border border-slate-200 p-5 animate-pulse">
+                                <div className="h-5 bg-slate-200 rounded mb-4 w-3/4" />
+                                <div className="h-3 bg-slate-200 rounded mb-2 w-1/2" />
+                                <div className="h-3 bg-slate-200 rounded w-1/3" />
                             </div>
                         ))}
                     </div>
-
-                    {/* Workspace grid */}
-                    {loading ? (
-                        <div className="grid grid-cols-3 gap-4">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="card animate-pulse">
-                                    <div className="h-5 bg-white/[0.05] rounded mb-4 w-3/4" />
-                                    <div className="h-3 bg-white/[0.05] rounded mb-2 w-1/2" />
-                                    <div className="h-3 bg-white/[0.05] rounded w-1/3" />
-                                </div>
-                            ))}
+                ) : workspaces.length === 0 ? (
+                    <div className="rounded-2xl bg-white border border-slate-200 flex flex-col items-center justify-center py-16 text-center shadow-sm">
+                        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 mb-4 text-emerald-600">
+                            {icons.folder}
                         </div>
-                    ) : workspaces.length === 0 ? (
-                        <div className="card flex flex-col items-center justify-center py-16 text-center">
-                            <div className="p-4 rounded-2xl bg-brand-500/10 border border-brand-500/20 mb-4 text-brand-400">
-                                {icons.folder}
-                            </div>
-                            <h3 className="text-white font-semibold mb-2">No Knowledge Layers yet</h3>
-                            <p className="text-gray-500 text-sm mb-5">Create your first isolated RAG workspace to get started</p>
-                            <button onClick={() => setShowModal(true)} className="btn-primary">{icons.plus} Create First Layer</button>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-3 gap-4">
-                            {workspaces.map(ws => (
-                                <WorkspaceCard
-                                    key={ws.id}
-                                    ws={ws}
-                                    onClick={() => navigate(`/workspace/${ws.id}`)}
-                                    onDelete={setDeleteTarget}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
+                        <h3 className="font-headline-lg text-slate-900 font-bold mb-2">No Knowledge Layers yet</h3>
+                        <p className="text-slate-500 text-sm mb-5">Create your first isolated RAG workspace to get started</p>
+                        <button onClick={() => setShowModal(true)} className="btn-primary">{icons.plus} Create First Layer</button>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {workspaces.map(ws => (
+                            <WorkspaceCard
+                                key={ws.id}
+                                ws={ws}
+                                onClick={() => navigate(`/workspace/${ws.id}`)}
+                                onDelete={setDeleteTarget}
+                            />
+                        ))}
+                    </div>
+                )}
             </main>
+
+            {/* ── Footer ── */}
+            <footer className="w-full bg-white border-t border-slate-200 mt-10">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 font-body-sm text-xs">
+                    <p>© 2025 InfiniFlow Inc. Enterprise RAG Platform &amp; Multi-Tenant Knowledge Bases. All rights reserved.</p>
+                    <div className="flex items-center gap-4 font-label-mono-xs text-xs">
+                        <span className="inline-flex items-center gap-1.5 text-emerald-700 font-medium">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            All Systems Operational
+                        </span>
+                    </div>
+                </div>
+            </footer>
 
             {/* ── Create Modal ── */}
             {showModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="card w-full max-w-md animate-slide-up">
-                        <h2 className="text-lg font-semibold text-white mb-5">New Knowledge Layer</h2>
+                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="rounded-2xl bg-white border border-slate-200 shadow-xl animate-slide-up p-6 w-full max-w-md relative overflow-hidden">
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+                        <h2 className="font-headline-lg text-lg font-bold text-slate-900 mb-5">New Knowledge Layer</h2>
                         <form onSubmit={createWorkspace} className="space-y-4">
                             <div>
-                                <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Layer Name *</label>
+                                <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">Layer Name *</label>
                                 <input
                                     className="input-field"
                                     placeholder="e.g. Company Policies"
@@ -262,7 +284,7 @@ export default function Dashboard({ user, onLogout }) {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Description</label>
+                                <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">Description</label>
                                 <input
                                     className="input-field"
                                     placeholder="Optional description..."
@@ -271,7 +293,7 @@ export default function Dashboard({ user, onLogout }) {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">LLM Model</label>
+                                <label className="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">LLM Model</label>
                                 <select className="input-field" value={form.llm_model} onChange={e => setForm(f => ({ ...f, llm_model: e.target.value }))}>
                                     <option value="qwen/qwen3.8-27b">Qwen 3.8 27B (Fast)</option>
                                     <option value="qwen/qwen3.6-27b">Qwen 3.6 27B (Fallback)</option>
@@ -291,14 +313,14 @@ export default function Dashboard({ user, onLogout }) {
 
             {/* ── Delete Confirm Modal ── */}
             {deleteTarget && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="card w-full max-w-sm animate-slide-up text-center">
-                        <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4 text-red-400">
+                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="rounded-2xl bg-white border border-slate-200 shadow-xl animate-slide-up p-6 w-full max-w-sm text-center">
+                        <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4 text-red-500">
                             {icons.trash}
                         </div>
-                        <h3 className="text-white font-semibold mb-2">Delete Knowledge Layer?</h3>
-                        <p className="text-gray-400 text-sm mb-6">
-                            "<span className="text-white">{deleteTarget.name}</span>" and all its documents will be permanently removed.
+                        <h3 className="font-headline-lg text-slate-900 font-bold mb-2">Delete Knowledge Layer?</h3>
+                        <p className="text-slate-500 text-sm mb-6">
+                            "<span className="text-slate-900 font-semibold">{deleteTarget.name}</span>" and all its documents will be permanently removed.
                         </p>
                         <div className="flex gap-3">
                             <button onClick={confirmDelete} className="btn-danger flex-1 justify-center">Delete</button>
