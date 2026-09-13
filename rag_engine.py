@@ -1,20 +1,22 @@
 import os
-from threading import Lock
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_groq import ChatGroq
-
-from langchain.chains import create_retrieval_chain, create_history_aware_retriever
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import HumanMessage, AIMessage
-from langchain_community.retrievers import BM25Retriever
-from langchain.retrievers import EnsembleRetriever
-from langchain.retrievers import ContextualCompressionRetriever
-from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
-from ai_engine.reranker import CrossEncoderReranker
-from ai_engine import store as _store
+import re
 import time
+import zlib
+from threading import Lock
+
+from ai_engine import store as _store
+from ai_engine.reranker import CrossEncoderReranker
+from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.retrievers import ContextualCompressionRetriever, EnsembleRetriever
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.retrievers import BM25Retriever
+from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_groq import ChatGroq
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from pypdf.errors import PdfReadError, PdfStreamError
 
 # In-process hybrid-retriever cache. Building BM25 requires pulling every
 # document out of the store and re-indexing it — doing that per request is a
@@ -43,13 +45,150 @@ def _embeddings():
     return _OnnxMiniLMEmbeddings()
 
 
+class UnreadablePdfError(Exception):
+    """Raised when a PDF cannot be parsed (corrupt, truncated, or not a PDF)."""
+
+
+def _assert_valid_pdf(file_path):
+    """Raise UnreadablePdfError when the file is not a PDF at all."""
+    with open(file_path, "rb") as f:
+        header = f.read(1024)
+    if not header.startswith(b"%PDF-"):
+        name = os.path.basename(file_path)
+        raise UnreadablePdfError(
+            f"'{name}' is not a valid PDF file (missing %PDF header)."
+        )
+
+
+def _zlib_decompress_tolerant(data):
+    """Tolerant FlateDecode decompression for possibly-truncated streams.
+
+    pypdf refuses anything it cannot fully decode ("Stream has ended
+    unexpectedly"); here we salvage whatever plaintext the deflate stream
+    contains before it breaks. Tries zlib-wrapped, then raw deflate.
+    """
+    for wbits in (zlib.MAX_WBITS, -zlib.MAX_WBITS):
+        try:
+            d = zlib.decompressobj(wbits)
+            out = d.decompress(data)
+            try:
+                out += d.flush()
+            except Exception:
+                pass
+            if out:
+                return out
+        except Exception:
+            try:
+                d = zlib.decompressobj(wbits)
+                return d.decompress(data)
+            except Exception:
+                continue
+    return b""
+
+
+_TEXT_UNESCAPES = {
+    "n": "\n", "r": "\r", "t": "\t", "b": "\b", "f": "\f",
+    "(": "(", ")": ")", "\\": "\\",
+}
+
+
+def _unescape_pdf_string(s):
+    out = []
+    i = 0
+    while i < len(s):
+        c = s[i]
+        if c != "\\":
+            out.append(c)
+            i += 1
+            continue
+        i += 1
+        if i >= len(s):
+            break
+        nxt = s[i]
+        if nxt in _TEXT_UNESCAPES:
+            out.append(_TEXT_UNESCAPES[nxt])
+            i += 1
+        elif nxt.isdigit():
+            oct_digits = nxt
+            i += 1
+            while i < len(s) and len(oct_digits) < 3 and s[i].isdigit():
+                oct_digits += s[i]
+                i += 1
+            out.append(chr(int(oct_digits, 8) & 0xFF))
+        else:
+            out.append(nxt)
+            i += 1
+    return "".join(out)
+
+
+def _text_from_content(content):
+    """Pull (…) Tj/TJ strings out of a decompressed content stream."""
+    s = content.decode("latin-1", errors="ignore")
+    parts = []
+    for m in re.finditer(r"\((?:[^()\\]|\\.)*\)", s):
+        parts.append(_unescape_pdf_string(m.group(0)[1:-1]))
+    return " ".join(p for p in parts if p.strip())
+
+
+def _extract_text_from_pdf_bytes(raw):
+    """Last-resort recovery for truncated/corrupt PDFs.
+
+    Decompresses each FlateDecode stream (best-effort) and extracts the text
+    show operators (Tj / TJ), so a PDF pypdf rejects can still be ingested.
+    """
+    chunks = []
+    for m in re.finditer(rb"stream\r?\n", raw):
+        start = m.end()
+        end = raw.find(b"endstream", start)
+        data = raw[start:] if end < 0 else raw[start:end]
+        dec = _zlib_decompress_tolerant(data)
+        if not dec:
+            continue
+        txt = _text_from_content(dec)
+        if txt:
+            chunks.append(txt)
+    return "\n".join(chunks)
+
+
+def _recover_documents(file_path, cause):
+    """Salvage text from a PDF pypdf refused, or raise UnreadablePdfError."""
+    file_name = os.path.basename(file_path)
+    with open(file_path, "rb") as f:
+        raw = f.read()
+
+    text = _extract_text_from_pdf_bytes(raw)
+    if text.strip():
+        print(
+            f"Recovered {len(text)} chars from unreadable PDF '{file_name}' "
+            f"(pypdf: {cause})"
+        )
+        from langchain_core.documents import Document
+
+        return [Document(page_content=text, metadata={"source": file_name})]
+
+    raise UnreadablePdfError(
+        f"'{file_name}' appears corrupted or truncated and no text could be "
+        f"recovered ({cause}). Please re-export or re-download the file and retry."
+    )
+
+
 def process_document(file_path):
     """Loads a PDF and splits it into smaller chunks with metadata."""
-    loader = PyPDFLoader(file_path)
-    documents = loader.load()
+    _assert_valid_pdf(file_path)
+
+    file_name = os.path.basename(file_path)
+    try:
+        loader = PyPDFLoader(file_path)
+        documents = loader.load()
+    except (PdfReadError, PdfStreamError) as e:
+        documents = _recover_documents(file_path, e)
+    except Exception as e:
+        if "Stream has ended unexpectedly" in str(e):
+            documents = _recover_documents(file_path, e)
+        else:
+            raise
 
     # Add source filename to metadata for citations
-    file_name = os.path.basename(file_path)
     for doc in documents:
         doc.metadata["source"] = file_name
 

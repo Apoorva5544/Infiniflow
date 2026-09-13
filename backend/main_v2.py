@@ -48,6 +48,7 @@ from rag_engine import (
     get_qa_chain,
     list_collections,
     delete_collection,
+    UnreadablePdfError,
 )
 from ai_engine.semantic_cache import get_semantic_cache
 from ai_engine.reranker import CrossEncoderReranker
@@ -460,6 +461,12 @@ async def upload_document(
             "chunks": len(chunks),
             "processing_time_seconds": round(elapsed, 2),
         }
+
+    except UnreadablePdfError as e:
+        doc.status = "failed"
+        db.commit()
+        logger.error(f"Ingestion rejected: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
 
     except Exception as e:
         doc.status = "failed"
