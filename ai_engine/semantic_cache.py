@@ -24,6 +24,16 @@ def _get_embeddings():
     global _embeddings, _np, _cosine_similarity
     if _embeddings is not None:
         return _embeddings
+    # HuggingFaceEmbeddings pulls in torch + sentence-transformers (~400MB+ RSS).
+    # On a 512MB free-tier instance that single load OOMs the webservice, so
+    # semantic *similarity* matching is opt-in. Exact-match caching (which needs
+    # no model) stays enabled by default via ENABLE_SEMANTIC_SIMILARITY=0.
+    if (
+        os.getenv("ENABLE_SEMANTIC_SIMILARITY", "false").strip().lower()
+        not in {"1", "true", "yes"}
+    ):
+        _embeddings = False
+        return False
     try:
         import numpy as _numpy
         from sklearn.metrics.pairwise import cosine_similarity as _cs
@@ -48,10 +58,19 @@ class SemanticCache:
     Falls back to exact-match if embedding model cannot be loaded.
     """
 
-    def __init__(self, similarity_threshold: float = 0.85, ttl_hours: int = 24):
+    def __init__(
+        self,
+        similarity_threshold: float = 0.85,
+        ttl_hours: int = 24,
+        max_entries: int = 256,
+    ):
         self.cache: Dict[str, Dict[str, Any]] = {}
         self.similarity_threshold = similarity_threshold
         self.ttl = timedelta(hours=ttl_hours)
+        # Bounded cache: entries each carry the full response text (and possibly
+        # an embedding), so an unbounded dict is a slow memory leak. Evict the
+        # least-recently-accessed entry once full.
+        self.max_entries = max_entries
         self.hit_count = 0
         self.miss_count = 0
 
@@ -126,6 +145,12 @@ class SemanticCache:
                 embedding = emb.embed_query(query)
             except Exception:
                 pass
+
+        if len(self.cache) >= self.max_entries:
+            oldest_key = min(
+                self.cache, key=lambda k: self.cache[k].get("last_accessed")
+            )
+            del self.cache[oldest_key]
 
         self.cache[key] = {
             "query": query,

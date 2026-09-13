@@ -30,7 +30,28 @@ _MAX_CACHED_STORES = 8
 
 
 def _store_type() -> str:
-    return os.getenv("VECTOR_STORE", "chroma").strip().lower()
+    st = os.getenv("VECTOR_STORE", "chroma").strip().lower()
+    if st in {"", "chroma"}:
+        # Render free-tier instances have NO persistent disk: a local chroma_db
+        # is wiped on every deploy/restart (the docs "disappear" and queries
+        # fail with "no documents"). Fail loudly instead of silently dropping
+        # data. Set VECTOR_STORE=pgvector + DATABASE_URL (e.g. Neon) in prod.
+        is_prod = os.getenv("ENVIRONMENT", "").strip().lower() in {
+            "production",
+            "prod",
+        }
+        allow_ephemeral = (
+            os.getenv("ALLOW_EPHEMERAL_CHROMA", "false").strip().lower()
+            in {"1", "true", "yes"}
+        )
+        if is_prod and not allow_ephemeral:
+            raise RuntimeError(
+                "VECTOR_STORE is unset/'chroma' in a production environment — "
+                "Chroma's local disk store is wiped on every restart and loses "
+                "ingested documents. Set VECTOR_STORE=pgvector and DATABASE_URL "
+                "(Neon), or set ALLOW_EPHEMERAL_CHROMA=1 to override."
+            )
+    return st
 
 
 def _embeddings():

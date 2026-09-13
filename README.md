@@ -209,6 +209,8 @@ docker compose -f docker-compose.prod.yml up -d
 | `GROQ_API_KEY` | ✅ | Groq API key for LLM inference |
 | `JWT_SECRET_KEY` | ✅ | Random 32+ char string for JWT signing |
 | `CHROMA_PATH` | ❌ | ChromaDB persistence path (default: `./chroma_db`) |
+| `ENABLE_RERANKER` | ❌ | Cross-encoder reranking (default: `true`; set `false` on free tier) |
+| `ENABLE_SEMANTIC_SIMILARITY` | ❌ | Semantic cache similarity matching via torch (default: `false`; OOMs 512MB instances) |
 | `OPENAI_API_KEY` | ❌ | Optional: fallback provider |
 | `ANTHROPIC_API_KEY` | ❌ | Optional: fallback provider |
 

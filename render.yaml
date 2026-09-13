@@ -41,6 +41,10 @@ services:
       # "true" only on a non-throttled plan.
       - key: ENABLE_RERANKER
         value: "false"
+      # Semantic *similarity* cache matching loads torch (~400MB+ RSS) and OOMs
+      # free-tier instances. Kept off; exact-match caching still works.
+      - key: ENABLE_SEMANTIC_SIMILARITY
+        value: "false"
       - fromGroup: infiniflow
 
   # ── Celery worker (async ingestion; broker = REDIS_URL) ────────────────────

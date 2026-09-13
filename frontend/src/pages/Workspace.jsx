@@ -334,7 +334,17 @@ export default function Workspace() {
                     cached: d.cached,
                 });
             } catch (err) {
-                patch({ type: 'error', text: err.response?.data?.detail || 'Query failed. Make sure documents are ingested first.' });
+                const detail = err.response?.data?.detail;
+                const status = err.response?.status;
+                let msg;
+                if (detail) {
+                    msg = detail;
+                } else if (status) {
+                    msg = `Query failed (HTTP ${status}). The service may be restarting — try again in a moment.`;
+                } else {
+                    msg = 'Cannot reach the server. The service is likely restarting (e.g. after an OOM event) — try again in a moment.';
+                }
+                patch({ type: 'error', text: msg });
             }
         }
 
