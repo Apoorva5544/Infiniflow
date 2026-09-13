@@ -200,6 +200,7 @@ def _evaluate_faithfulness() -> Optional[Dict]:
         temperature=0,
         model_name="qwen/qwen3.8-27b",
         groq_api_key=os.getenv("GROQ_API_KEY", "").strip("\"' "),
+        max_tokens=int(os.getenv("MAX_LLM_OUTPUT_TOKENS", "900")),
     )
     temp_dir = tempfile.mkdtemp(prefix="infiniflow_eval_")
     chunks = build_chunks()

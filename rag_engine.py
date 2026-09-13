@@ -327,7 +327,10 @@ def get_qa_chain(vector_store, retriever=None):
     """Creates a conversational RAG chain with Enterprise-grade features."""
     api_key = os.getenv("GROQ_API_KEY", "").strip("\"' ")
     llm = ChatGroq(
-        temperature=0, model_name="qwen/qwen3.8-27b", groq_api_key=api_key
+        temperature=0,
+        model_name="qwen/qwen3.8-27b",
+        groq_api_key=api_key,
+        max_tokens=int(os.getenv("MAX_LLM_OUTPUT_TOKENS", "900")),
     )
 
     if retriever is None:

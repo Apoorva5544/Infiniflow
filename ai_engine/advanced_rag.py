@@ -39,6 +39,7 @@ class AdvancedRAGEngine:
                 temperature=temperature,
                 model_name=self.llm_model,
                 groq_api_key=api_key,
+                max_tokens=int(os.getenv("MAX_LLM_OUTPUT_TOKENS", "900")),
             )
         except Exception as e:  # pragma: no cover - environment dependent
             print(f"Warning: LLM unavailable ({e}); retrieval-only mode.")

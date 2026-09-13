@@ -719,6 +719,7 @@ async def query_workspace_stream(
                 temperature=ws.temperature or 0.0,
                 model_name=ws.llm_model,
                 groq_api_key=llm_key,
+                max_tokens=int(os.getenv("MAX_LLM_OUTPUT_TOKENS", "900")),
             )
 
             # History-aware reformulation (standalone question)

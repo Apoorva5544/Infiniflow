@@ -22,7 +22,8 @@ class ResearchAgent:
         self.llm = ChatGroq(
             temperature=0.7,
             model_name=model,
-            groq_api_key=os.getenv("GROQ_API_KEY", "").strip("\"' ")
+            groq_api_key=os.getenv("GROQ_API_KEY", "").strip("\"' "),
+            max_tokens=int(os.getenv("MAX_LLM_OUTPUT_TOKENS", "900")),
         )
         self.memory = ConversationBufferMemory(
             memory_key="chat_history",
@@ -156,7 +157,8 @@ class DataAnalysisAgent:
         self.llm = ChatGroq(
             temperature=0.3,
             model_name=model,
-            groq_api_key=os.getenv("GROQ_API_KEY", "").strip("\"' ")
+            groq_api_key=os.getenv("GROQ_API_KEY", "").strip("\"' "),
+            max_tokens=int(os.getenv("MAX_LLM_OUTPUT_TOKENS", "900")),
         )
     
     def analyze_patterns(self, query: str) -> Dict[str, Any]:

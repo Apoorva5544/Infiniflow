@@ -54,6 +54,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
     DEFAULT_LLM_MODEL: str = "qwen/qwen3.8-27b"
     FALLBACK_LLM_MODEL: str = "qwen/qwen3.6-27b"
+    MAX_LLM_OUTPUT_TOKENS: int = 900
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
     RERANKER_MODEL: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
