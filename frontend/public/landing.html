@@ -66,16 +66,16 @@
 <a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" href="#api">API</a>
 </nav>
 <div class="flex items-center gap-2 sm:gap-3">
-<a class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/70 transition-all font-label-mono-xs text-xs font-medium" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
+<a class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/70 transition-all font-label-mono-xs text-xs font-medium" href="https://infiniflow-prod.onrender.com" rel="noreferrer" target="_blank">
 <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          Live: infiniflow.onrender.com
+          Live: infiniflow-prod.onrender.com
         </a>
 <a class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-200/80 transition-colors font-body-sm text-sm font-medium" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">
 <span class="text-amber-500 font-bold text-sm">★</span>
 <span>GitHub</span>
 </a>
-<a class="hidden sm:inline-flex px-3 py-1.5 font-body-sm text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">Sign in</a>
-<a class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-headline-md text-sm font-semibold shadow-sm hover:bg-emerald-700 transition-all" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
+<a class="hidden sm:inline-flex px-3 py-1.5 font-body-sm text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="https://infiniflow-prod.onrender.com" rel="noreferrer" target="_blank">Sign in</a>
+<a class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-headline-md text-sm font-semibold shadow-sm hover:bg-emerald-700 transition-all" href="https://infiniflow-prod.onrender.com" rel="noreferrer" target="_blank">
           Try Console →
         </a>
 </div>
@@ -117,7 +117,7 @@
             Multi-tenant knowledge bases with hybrid search (Vector + BM25), cross-encoder reranking, history-aware query reformulation, streaming SSE responses, and built-in evaluation. Deployed on FastAPI &amp; PostgreSQL.
           </p>
 <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
-<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 text-white font-headline-md text-base font-semibold shadow-md shadow-emerald-600/20 hover:bg-emerald-700 transition-all group" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
+<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 text-white font-headline-md text-base font-semibold shadow-md shadow-emerald-600/20 hover:bg-emerald-700 transition-all group" href="https://infiniflow-prod.onrender.com" rel="noreferrer" target="_blank">
 <span>Try Live Demo</span>
 <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </a>
@@ -137,7 +137,7 @@
 </div>
 <div>
 <div class="font-label-mono-xs text-xs text-emerald-700 font-semibold uppercase tracking-wider">LIVE SYSTEM STATUS</div>
-<div class="font-headline-md text-base text-slate-900 font-bold">infiniflow.onrender.com</div>
+<div class="font-headline-md text-base text-slate-900 font-bold">infiniflow-prod.onrender.com</div>
 </div>
 </div>
 <div class="flex items-center gap-2">
@@ -626,20 +626,20 @@
 </div>
 <div class="p-6 sm:p-8 font-label-code text-xs sm:text-sm overflow-x-auto space-y-4">
 <div class="text-slate-400 font-mono"># 1. Sign up and get a JWT token</div>
-<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/auth/signup \
+<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow-prod.onrender.com/api/v1/auth/signup \
   -H <span class="text-emerald-400">"Content-Type: application/json"</span> \
   -d <span class="text-slate-300">'{"email":"you@example.com","password":"secret","full_name":"You"}'</span></pre>
 <div class="text-slate-400 pt-2 font-mono"># 2. Create a workspace and upload a PDF</div>
-<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/workspaces \
+<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow-prod.onrender.com/api/v1/workspaces \
   -H <span class="text-emerald-400">"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5..."</span> \
   -d <span class="text-slate-300">'{"name":"My Workspace","description":"Team docs"}'</span>
 
-<span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/workspaces/{id}/upload \
+<span class="text-teal-400">curl</span> -X POST https://infiniflow-prod.onrender.com/api/v1/workspaces/{id}/upload \
   -H <span class="text-emerald-400">"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5..."</span> \
   -F <span class="text-emerald-400">"file=@report.pdf"</span></pre>
 <div class="text-slate-400 pt-2 font-mono"># 3. Query with streaming SSE and citations</div>
 <div class="p-4 rounded-lg bg-slate-950/80 border border-slate-800/80 font-label-mono-xs text-xs text-slate-300 space-y-1.5 font-mono">
-<div><span class="text-teal-400">curl</span> -N -X POST https://infiniflow.onrender.com/api/v1/workspaces/{id}/query/stream \</div>
+<div><span class="text-teal-400">curl</span> -N -X POST https://infiniflow-prod.onrender.com/api/v1/workspaces/{id}/query/stream \</div>
 <div>  -H <span class="text-emerald-400">"Authorization: Bearer eyJ..."</span> \</div>
 <div>  -d <span class="text-slate-300">'{"question":"What was the revenue?","stream":true,"include_citations":true}'</span></div>
 <div class="pt-2 text-slate-400"># SSE Response:</div>
@@ -655,7 +655,7 @@
 </div>
 <div class="bg-slate-950 px-6 py-3.5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
 <div class="flex items-center gap-4 font-label-mono-xs text-xs text-slate-400">
-<span>Interactive Docs: <a class="text-emerald-400 hover:underline" href="https://infiniflow.onrender.com/api/docs" rel="noreferrer" target="_blank">/api/docs</a></span>
+<span>Interactive Docs: <a class="text-emerald-400 hover:underline" href="https://infiniflow-prod.onrender.com/api/docs" rel="noreferrer" target="_blank">/api/docs</a></span>
 <span>OpenAPI v3.1</span>
 </div>
 <button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-label-mono-xs text-xs transition-colors" onclick="navigator.clipboard.writeText('git clone https://github.com/Apoorva5544/Infiniflow.git')">
@@ -728,7 +728,7 @@
 </table>
 </div>
 <div class="mt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 font-label-mono-xs text-xs gap-2">
-<span>17 REST endpoints + Swagger UI — view all at <a class="text-emerald-600 hover:underline" href="https://infiniflow.onrender.com/api/docs" rel="noreferrer" target="_blank">/api/docs</a></span>
+<span>17 REST endpoints + Swagger UI — view all at <a class="text-emerald-600 hover:underline" href="https://infiniflow-prod.onrender.com/api/docs" rel="noreferrer" target="_blank">/api/docs</a></span>
 <span>Rate limited: 5–30 req/min per endpoint</span>
 </div>
 </div>
@@ -816,7 +816,7 @@
 <span class="material-symbols-outlined text-[20px]">code</span>
 <span>View Source Code</span>
 </a>
-<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white border border-slate-300 text-slate-700 font-headline-md text-base font-semibold hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
+<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white border border-slate-300 text-slate-700 font-headline-md text-base font-semibold hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm" href="https://infiniflow-prod.onrender.com" rel="noreferrer" target="_blank">
 <span>Try Live Demo</span>
 <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </a>
@@ -851,7 +851,7 @@
             Open-source RAG platform with hybrid retrieval, cross-encoder reranking, streaming citations, and built-in evaluation. Built with FastAPI, LangChain, ChromaDB/PGVector, and Groq.
           </p>
 <div class="flex items-center gap-3 font-label-mono-xs text-xs text-slate-500">
-<a class="inline-flex items-center gap-1.5 text-emerald-700 font-medium hover:underline" href="https://infiniflow.onrender.com/health" rel="noreferrer" target="_blank">
+<a class="inline-flex items-center gap-1.5 text-emerald-700 font-medium hover:underline" href="https://infiniflow-prod.onrender.com/health" rel="noreferrer" target="_blank">
 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
               Health Check
             </a>
@@ -872,7 +872,7 @@
 <div class="flex flex-col gap-3">
 <span class="font-headline-md text-xs font-bold text-slate-900 uppercase tracking-wider">Developers</span>
 <nav class="flex flex-col gap-2 font-body-sm text-sm">
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://infiniflow.onrender.com/api/docs" rel="noreferrer" target="_blank">FastAPI Interactive Docs</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://infiniflow-prod.onrender.com/api/docs" rel="noreferrer" target="_blank">FastAPI Interactive Docs</a>
 <a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">GitHub Repository</a>
 <a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://github.com/Apoorva5544/Infiniflow#-evaluation" rel="noreferrer" target="_blank">Evaluation Harness</a>
 <a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#architecture">Architecture</a>

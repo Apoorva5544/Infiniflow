@@ -169,7 +169,7 @@ export default function Dashboard({ user, onLogout }) {
                     <div className="flex items-center gap-2 sm:gap-3">
                         <a className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/70 transition-all font-label-mono-xs text-xs font-medium" href="/landing.html">
                             <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Live: infiniflow.onrender.com
+                            Live: infiniflow-prod.onrender.com
                         </a>
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-500 text-xs font-bold">
