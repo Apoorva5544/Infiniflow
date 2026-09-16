@@ -49,7 +49,7 @@
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
 <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
 <div class="flex items-center gap-3">
-<a class="flex items-center gap-3" data-path="landing-overview" href="#">
+<a class="flex items-center gap-3" href="#">
 <div class="h-9 w-9 rounded-lg overflow-hidden flex items-center justify-center bg-slate-900 border border-slate-800 shadow-sm shrink-0">
 <img alt="InfiniFlow Logo" class="h-full w-full object-cover scale-150" src="https://lh3.googleusercontent.com/aida/AEtjO1Wj0PQU22zOmXnzAhJX31oZZtLlGqxSKL-1hj9Gqq1G7nCS2enfnXnkrGUsesKYVURV9eVmL_C_m1FTFW3bp5VfvHCg_PB-r0odEFhRqCFaVVKwnRzYD2EMmbNW-14Pz0Mt6bzQIEOxv42gXgHhNgP2Kbr9NbHtn36Y5NXomSEwXr6oqLRB_0ptNayoFfJ6sWypHBqr-bsIwImo6BVpGp5U0Qz0RbkAlYsPdcXfky7E02j723wO0ywLYQw"/>
 </div>
@@ -60,11 +60,10 @@
         </span>
 </div>
 <nav class="hidden lg:flex items-center gap-1">
-<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" data-path="architecture" href="#">Architecture</a>
-<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" data-path="hybrid-search" href="#">Hybrid Search</a>
-<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" data-path="multi-tenant-workspaces" href="#">Multi-Tenant Workspaces</a>
-<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" data-path="ragas-benchmarks" href="#">RAGAS Benchmarks</a>
-<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" data-path="api-docs" href="#">API Docs</a>
+<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" href="#architecture">Architecture</a>
+<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" href="#pipeline">Pipeline</a>
+<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" href="#features">Features</a>
+<a class="px-3.5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-colors font-body-sm text-sm font-medium rounded-lg" href="#api">API</a>
 </nav>
 <div class="flex items-center gap-2 sm:gap-3">
 <a class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/70 transition-all font-label-mono-xs text-xs font-medium" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
@@ -73,15 +72,12 @@
         </a>
 <a class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-200/80 transition-colors font-body-sm text-sm font-medium" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">
 <span class="text-amber-500 font-bold text-sm">★</span>
-<span>Star</span>
+<span>GitHub</span>
 </a>
-<a class="hidden sm:inline-flex px-3 py-1.5 font-body-sm text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" data-path="login" href="#">Sign in</a>
-<a class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-headline-md text-sm font-semibold shadow-sm hover:bg-emerald-700 transition-all" data-path="create-workspace" href="#">
-          Try Console -&gt;
+<a class="hidden sm:inline-flex px-3 py-1.5 font-body-sm text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">Sign in</a>
+<a class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-headline-md text-sm font-semibold shadow-sm hover:bg-emerald-700 transition-all" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
+          Try Console →
         </a>
-<div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 cursor-pointer">
-<span class="material-symbols-outlined text-[18px]">person</span>
-</div>
 </div>
 </div>
 </header>
@@ -89,7 +85,6 @@
 <div class="flex flex-col w-full text-slate-900">
 <!-- TOP HERO SECTION -->
 <section class="relative w-full overflow-hidden pt-12 pb-20 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50">
-<!-- Ambient subtle tech background glow -->
 <div class="absolute inset-0 pointer-events-none opacity-60">
 <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[850px] h-[500px] bg-emerald-100/50 rounded-full blur-[140px]"></div>
 <div class="absolute top-48 right-10 w-[500px] h-[400px] bg-cyan-100/40 rounded-full blur-[120px]"></div>
@@ -104,184 +99,227 @@
 </svg>
 </div>
 <div class="relative max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center text-center">
-<!-- Top Announcement Pill -->
 <div class="inline-flex items-center gap-2 p-1 pr-4 rounded-full bg-white border border-slate-200 shadow-sm mb-6">
 <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-label-mono-xs text-xs font-semibold uppercase tracking-wider">
-              PRODUCTION RAG
+              OPEN SOURCE
             </span>
 <span class="font-body-sm text-xs sm:text-sm text-slate-600 flex items-center gap-1.5 font-medium">
 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Multi-Tenant Workspaces &amp; Hybrid Retrieval
+              FastAPI · ChromaDB/PGVector · Groq LLM · MIT Licensed
             </span>
 </div>
-<!-- Main Headline -->
 <h1 class="font-display-hero text-4xl sm:text-5xl lg:text-6xl font-extrabold max-w-5xl tracking-tight text-slate-900 mb-6 leading-tight">
             Production RAG. 
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600">Hybrid Retrieval.</span> 
-            Proven Precision.
+            Verifiable Citations.
           </h1>
-<!-- Subheadline -->
 <p class="font-body-lg text-lg sm:text-xl text-slate-600 max-w-3xl mb-8 leading-relaxed">
-            Multi-tenant knowledge bases with 3-stage hybrid search (ChromaDB + BM25 + Cross-Encoder), agentic multi-hop routing, verifiable citations, and automated RAGAS evaluation. Deployed on FastAPI &amp; PostgreSQL.
+            Multi-tenant knowledge bases with hybrid search (Vector + BM25), cross-encoder reranking, history-aware query reformulation, streaming SSE responses, and built-in evaluation. Deployed on FastAPI &amp; PostgreSQL.
           </p>
-<!-- Primary Action CTAs -->
 <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
 <a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 text-white font-headline-md text-base font-semibold shadow-md shadow-emerald-600/20 hover:bg-emerald-700 transition-all group" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
-<span>Try Live Demo (infiniflow.onrender.com)</span>
+<span>Try Live Demo</span>
 <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </a>
 <a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white border border-slate-300 text-slate-700 font-headline-md text-base font-semibold hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">
 <span class="material-symbols-outlined text-[20px] text-emerald-600">terminal</span>
-<span>Deploy with Docker</span>
+<span>View Source on GitHub</span>
 <span class="font-label-mono-xs text-xs px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600 font-medium">Apoorva5544/Infiniflow</span>
 </a>
 </div>
-<!-- Hero Workspace Telemetry Card (Crisp White Slate Card) -->
+<!-- Live System Status Card -->
 <div class="w-full max-w-5xl rounded-2xl bg-white border border-slate-200/90 shadow-xl shadow-slate-200/50 p-6 lg:p-8 text-left relative overflow-hidden">
 <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
-<!-- Header Strip -->
 <div class="flex flex-wrap items-center justify-between gap-3 pb-5 mb-6 border-b border-slate-100">
 <div class="flex items-center gap-3">
 <div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-[18px]">folder_special</span>
+<span class="material-symbols-outlined text-[18px]">terminal</span>
 </div>
 <div>
-            <div class="font-label-mono-xs text-xs text-emerald-700 font-semibold uppercase tracking-wider">RAGAS EVALUATION RESULTS</div>
-<div class="font-headline-md text-base text-slate-900 font-bold">50-document legal &amp; financial corpus</div>
+<div class="font-label-mono-xs text-xs text-emerald-700 font-semibold uppercase tracking-wider">LIVE SYSTEM STATUS</div>
+<div class="font-headline-md text-base text-slate-900 font-bold">infiniflow.onrender.com</div>
 </div>
 </div>
 <div class="flex items-center gap-2">
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-mono-xs text-xs font-semibold">
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-              Documented in README
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                  Operational
                 </span>
-<span id="hero-version" class="font-label-mono-xs text-xs text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded font-medium">FastAPI</span>
+<span class="font-label-mono-xs text-xs text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded font-medium">FastAPI + React</span>
 </div>
 </div>
-<!-- Metric KPI Cards Row -->
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-6">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
 <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col justify-between">
-<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Context Precision</div>
-<div class="flex items-baseline gap-2 my-1.5">
-<span class="font-headline-lg text-3xl text-emerald-600 font-extrabold tracking-tight">0.91</span>
-<span class="font-label-mono-xs text-xs text-emerald-700 bg-emerald-100/80 border border-emerald-200/60 px-1.5 py-0.5 rounded font-semibold">+34% vs Vector</span>
-</div>
-<div class="font-body-sm text-xs text-slate-500">Reranker Top-5</div>
+<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Vector Store</div>
+<div class="font-headline-lg text-xl text-emerald-600 font-extrabold tracking-tight mt-1">PGVector</div>
+<div class="font-body-sm text-xs text-slate-500 mt-0.5">Production (Neon PostgreSQL)</div>
 </div>
 <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col justify-between">
-<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Answer Faithfulness</div>
-<div class="flex items-baseline gap-2 my-1.5">
-<span class="font-headline-lg text-3xl text-teal-600 font-extrabold tracking-tight">0.89</span>
-<span class="font-label-mono-xs text-xs text-teal-700 bg-teal-100/80 border border-teal-200/60 px-1.5 py-0.5 rounded font-semibold">+25%</span>
-</div>
-<div class="font-body-sm text-xs text-slate-500">Documented Eval Result</div>
+<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">LLM Backend</div>
+<div class="font-headline-lg text-xl text-teal-600 font-extrabold tracking-tight mt-1">Groq</div>
+<div class="font-body-sm text-xs text-slate-500 mt-0.5">qwen/qwen3.8-27b</div>
 </div>
 <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col justify-between">
-<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Answer Relevancy</div>
-<div class="flex items-baseline gap-2 my-1.5">
-<span class="font-headline-lg text-3xl text-slate-800 font-extrabold tracking-tight">0.87</span>
-<span class="font-label-mono-xs text-xs text-slate-600 bg-slate-200/70 border border-slate-300/60 px-1.5 py-0.5 rounded font-medium">+18%</span>
-</div>
-<div class="font-body-sm text-xs text-slate-500">50-document corpus</div>
+<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Embeddings</div>
+<div class="font-headline-lg text-xl text-slate-800 font-extrabold tracking-tight mt-1">ONNX MiniLM</div>
+<div class="font-body-sm text-xs text-slate-500 mt-0.5">~50MB RAM (no PyTorch)</div>
 </div>
 <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/80 flex flex-col justify-between">
-<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Avg Latency</div>
-<div class="flex items-baseline gap-2 my-1.5">
-<span class="font-headline-lg text-3xl text-slate-800 font-extrabold tracking-tight">1.9s</span>
-<span class="font-label-mono-xs text-xs text-emerald-700 bg-emerald-100/80 border border-emerald-200/60 px-1.5 py-0.5 rounded font-semibold">-41%</span>
-</div>
-<div class="font-body-sm text-xs text-slate-500">FastAPI Stream SSE</div>
-</div>
-</div>
-<!-- Documented Capability Cards -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-<!-- Card 1 -->
-<div class="p-4 rounded-xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all group">
-<div class="flex items-center justify-between mb-3">
-<div class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200/70 flex items-center justify-center text-emerald-600 group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[20px]">folder</span>
-</div>
-<span class="inline-flex items-center gap-1 font-label-mono-xs text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">
-<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    In Production
-                  </span>
-</div>
-<div>
-<div class="font-headline-md text-base font-bold text-slate-900">3-Stage Hybrid Retrieval</div>
-<div class="flex items-center gap-3 font-label-mono-xs text-xs text-slate-500 mt-1">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">join_full</span> Vector + BM25</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">filter_alt</span> Cross-Encoder rerank</span>
-</div>
-</div>
-<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between font-label-mono-xs text-xs text-slate-500">
-<span>ChromaDB · pgvector</span>
-<span class="text-emerald-600 font-semibold">Top-20 → Top-5</span>
-</div>
-</div>
-<!-- Card 2 -->
-<div class="p-4 rounded-xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all group">
-<div class="flex items-center justify-between mb-3">
-<div class="w-9 h-9 rounded-lg bg-teal-50 border border-teal-200/70 flex items-center justify-center text-teal-600 group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[20px]">folder</span>
-</div>
-<span class="inline-flex items-center gap-1 font-label-mono-xs text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">
-<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    In Production
-                  </span>
-</div>
-<div>
-<div class="font-headline-md text-base font-bold text-slate-900">Agentic Multi-Hop Routing</div>
-<div class="flex items-center gap-3 font-label-mono-xs text-xs text-slate-500 mt-1">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">alt_route</span> Direct · Multi-hop</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">split_branch</span> Compare · Summarize</span>
-</div>
-</div>
-<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between font-label-mono-xs text-xs text-slate-500">
-<span>History-Aware Reformulation</span>
-<span class="text-teal-600 font-semibold">Sub-query Decomposition</span>
-</div>
-</div>
-<!-- Card 3 -->
-<div class="p-4 rounded-xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all group">
-<div class="flex items-center justify-between mb-3">
-<div class="w-9 h-9 rounded-lg bg-cyan-50 border border-cyan-200/70 flex items-center justify-center text-cyan-600 group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[20px]">folder</span>
-</div>
-<span class="inline-flex items-center gap-1 font-label-mono-xs text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">
-<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    In Production
-                  </span>
-</div>
-<div>
-<div class="font-headline-md text-base font-bold text-slate-900">Automated RAGAS Evaluation</div>
-<div class="flex items-center gap-3 font-label-mono-xs text-xs text-slate-500 mt-1">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">query_stats</span> Faithfulness</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">target</span> Precision · Recall</span>
-</div>
-</div>
-<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between font-label-mono-xs text-xs text-slate-500">
-<span>Per-workspace analytics</span>
-<span class="text-emerald-600 font-semibold">CI-Run Regression</span>
-</div>
+<div class="font-label-mono-xs text-xs text-slate-500 uppercase tracking-wider font-medium">Frontend</div>
+<div class="font-headline-lg text-xl text-slate-800 font-extrabold tracking-tight mt-1">React 18</div>
+<div class="font-body-sm text-xs text-slate-500 mt-0.5">Vite + Tailwind CSS</div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<!-- 5-STAGE PRODUCTION PIPELINE SECTION -->
-<section class="w-full bg-slate-50/70 border-y border-slate-200 py-20 relative">
+
+<!-- ARCHITECTURE DIAGRAM SECTION -->
+<section id="architecture" class="w-full bg-slate-50/70 border-y border-slate-200 py-20 relative">
 <div class="max-w-7xl mx-auto px-6 lg:px-12">
 <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
 <div>
-<div class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider mb-2">ARCHITECTURAL SYSTEM BLUEPRINT</div>
-<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight">The 5-Stage Production Pipeline</h2>
+<div class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider mb-2">SYSTEM ARCHITECTURE</div>
+<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight">Architecture Overview</h2>
 </div>
 <p class="font-body-md text-base text-slate-600 max-w-md leading-relaxed">
-              A zero-drift, modular architecture engineering deterministic precision from chunking to generative citation streaming.
+              A modular pipeline from ingestion through retrieval to generation. Each stage is independently testable and swappable.
             </p>
 </div>
-<!-- Pipeline Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 relative">
+<!-- Architecture Diagram (ASCII Block Diagram) -->
+<div class="max-w-5xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden">
+<div class="h-12 bg-slate-950 px-5 flex items-center justify-between border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+<span class="ml-3 font-label-mono-xs text-xs text-slate-400 font-medium">architecture.md — Mermaid Source</span>
+</div>
+<div class="font-label-mono-xs text-xs text-slate-500">
+<a href="https://github.com/Apoorva5544/Infiniflow#-architecture" class="text-emerald-400 hover:underline" rel="noreferrer" target="_blank">View in README</a>
+</div>
+</div>
+<div class="p-6 sm:p-8 overflow-x-auto">
+<pre class="font-label-code text-xs sm:text-sm leading-relaxed text-slate-300"><span class="text-slate-500">┌─────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="text-slate-500">│</span>  <span class="text-emerald-400 font-bold">InfiniFlow — System Architecture</span>                                              <span class="text-slate-500">│</span>
+<span class="text-slate-500">└─────────────────────────────────────────────────────────────────────────────────┘</span>
+
+  <span class="text-amber-400 font-bold">📥 INGESTION</span>                   <span class="text-cyan-400 font-bold">💾 STORAGE</span>                  <span class="text-teal-400 font-bold">🔍 RETRIEVAL</span>
+  ┌──────────────────┐          ┌──────────────────┐         ┌──────────────────────┐
+  │ PDF Upload       │          │ PostgreSQL       │         │ Vector Search        │
+  │  ↓               │          │ (Users, Workspaces│         │ (ChromaDB / PGVector)│
+  │ PyPDFLoader      │          │  Metadata, JWT)  │         │  0.6 weight          │
+  │  ↓ (+ FlateDecode│          │                  │         │  ↓                   │
+  │   Recovery)      │          │ ChromaDB /       │         │ BM25 Keyword Search  │
+  │  ↓               │          │ PGVector         │         │ (rank_bm25)          │
+  │ RecursiveText    │          │ (Vector Embeds)  │         │  0.4 weight          │
+  │ Splitter         │          │                  │         │  ↓                   │
+  │ (1000/200)       │          │ Redis            │         │ EnsembleRetriever    │
+  │  ↓               │          │ (Semantic Cache + │         │ (60/40 Hybrid)       │
+  │ ONNX MiniLM      │          │  Celery Broker)  │         │  ↓                   │
+  │ Embeddings       │          └──────────────────┘         │ Cross-Encoder        │
+  │ (384-dim)        │                                       │ Reranker             │
+  └──────────────────┘                                       │ (ms-marco-MiniLM)   │
+                                                              │  candidates → top-5  │
+                                                              └──────────────────────┘
+                                                                     │
+                                                                     ↓
+  <span class="text-rose-400 font-bold">✍️ GENERATION</span>                  <span class="text-purple-400 font-bold">🧠 REASONING</span>                <span class="text-blue-400 font-bold">🖥️ INTERFACES</span>
+  ┌──────────────────┐          ┌──────────────────────┐       ┌──────────────────────┐
+  │ Groq LLM         │          │ History-Aware        │       │ React + Vite +       │
+  │ (qwen3.8-27b)    │◄────────│ Query Reformulation  │       │ Tailwind CSS         │
+  │  ↓               │          │ (standalone question │       │ (SPA Dashboard)      │
+  │ SSE Token Stream │          │  generation from     │       │                      │
+  │  ↓               │          │  chat history)       │       │ Streamlit Analytics  │
+  │ Citation Engine  │          │                      │       │ (Internal Dashboard) │
+  │ (source, page,   │          │ Advanced RAG Engine  │       │                      │
+  │  chunk_text,     │          │ (multi-query, HyDE,  │       │ FastAPI OpenAPI      │
+  │  relevance_score)│          │  decomposition —     │       │ /api/docs            │
+  └──────────────────┘          │  available via API)  │       └──────────────────────┘
+                                └──────────────────────┘
+
+  <span class="text-emerald-400">Auth: JWT (HS256) + bcrypt</span>  │  <span class="text-teal-400">Rate Limiting: slowapi</span>  │  <span class="text-amber-400">Queue: Celery + Redis</span></pre>
+</div>
+<div class="bg-slate-950 px-6 py-3.5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-4 font-label-mono-xs text-xs text-slate-400">
+<span>Source: <a class="text-emerald-400 hover:underline" href="https://github.com/Apoorva5544/Infiniflow/blob/main/README.md" rel="noreferrer" target="_blank">README.md</a></span>
+<span>License: MIT</span>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-label-mono-xs text-xs transition-colors" onclick="navigator.clipboard.writeText(document.getElementById('mermaid-source').textContent)">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Copy Mermaid Source</span>
+</button>
+</div>
+</div>
+<!-- Mermaid source for README compatibility (hidden) -->
+<script type="text/plain" id="mermaid-source">flowchart TB
+    subgraph Ingestion["📥 Ingestion Pipeline"]
+        Upload["PDF Upload"]
+        Chunk["Smart Chunking (Recursive + Semantic)"]
+        Embed["HuggingFace Embeddings (ONNX MiniLM)"]
+        BM25["BM25 Index Build"]
+    end
+
+    subgraph Storage["💾 Storage"]
+        Postgres[("PostgreSQL — Users + Workspaces + Metadata")]
+        Chroma[("ChromaDB / PGVector — Vector Embeddings")]
+        Redis[("Redis — Semantic Cache + Celery Broker")]
+    end
+
+    subgraph Retrieval["🔍 Retrieval Engine"]
+        VectorSearch["Vector Search (ChromaDB / pgvector)"]
+        KeywordSearch["BM25 Keyword Search"]
+        Ensemble["Hybrid Ensemble 60/40 Weighted"]
+        Reranker["Cross-Encoder Reranker (ms-marco-MiniLM)"]
+    end
+
+    subgraph Reasoning["🧠 Reasoning Layer"]
+        Reformer["History-Aware Query Reformulation"]
+        Advanced["Advanced RAG (multi-query, HyDE, decomposition)"]
+    end
+
+    subgraph Generation["✍️ Generation"]
+        LLM["Groq LLM (qwen3.8-27b)"]
+        Citation["Citation Engine (source, page, score)"]
+        Stream["Streaming SSE (token-by-token)"]
+    end
+
+    subgraph Frontend["🖥️ Interfaces"]
+        React["React + Vite + Tailwind"]
+        Streamlit["Streamlit Analytics"]
+        API["FastAPI OpenAPI Docs"]
+    end
+
+    Upload --> Chunk --> Embed --> Chroma
+    Chunk --> BM25
+    Chroma --> VectorSearch
+    BM25 --> KeywordSearch
+    VectorSearch --> Ensemble
+    KeywordSearch --> Ensemble
+    Ensemble --> Reranker
+    Reranker --> Reformer
+    Reformer --> Advanced
+    Advanced --> LLM
+    LLM --> Citation --> Stream --> React
+    Postgres --> React
+    Streamlit --> Postgres
+    API --> Postgres</script>
+</div>
+</section>
+
+<!-- PIPELINE STAGES -->
+<section id="pipeline" class="w-full py-20 bg-white relative">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+<div>
+<div class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider mb-2">RETRIEVAL PIPELINE</div>
+<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight">From Upload to Answer</h2>
+</div>
+<p class="font-body-md text-base text-slate-600 max-w-md leading-relaxed">
+              Every query flows through a deterministic pipeline: ingest, embed, retrieve, rerank, reformulate, generate.
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 <!-- Stage 1 -->
 <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between hover:border-slate-300 hover:shadow-md transition-all">
 <div class="mb-4">
@@ -289,12 +327,12 @@
 <span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">STAGE 01</span>
 <span class="material-symbols-outlined text-slate-400 text-[20px]">upload_file</span>
 </div>
-<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Ingestion Pipeline</h3>
-<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">Smart recursive &amp; semantic chunking, HuggingFace embeddings, BM25 indexing, and entity relations.</p>
+<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">PDF Ingestion</h3>
+<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">PyPDFLoader with FlateDecode recovery for corrupted PDFs. RecursiveCharacterTextSplitter (1000 chars, 200 overlap).</p>
 </div>
 <div class="pt-3 border-t border-slate-100 font-label-mono-xs text-xs text-teal-700 font-medium flex items-center gap-1">
 <span class="material-symbols-outlined text-[14px]">bolt</span>
-<span>PDF/DOCX Stream Parser</span>
+<span>Corruption recovery built-in</span>
 </div>
 </div>
 <!-- Stage 2 -->
@@ -304,42 +342,42 @@
 <span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">STAGE 02</span>
 <span class="material-symbols-outlined text-slate-400 text-[20px]">database</span>
 </div>
-<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Dual-Engine Storage</h3>
-<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">PostgreSQL for users, metadata &amp; JWT isolation; ChromaDB &amp; pgvector for high-dimensional vectors.</p>
+<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Embed &amp; Store</h3>
+<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">ONNX MiniLM embeddings (384-dim, ~50MB RAM). Dual backend: ChromaDB for dev, PGVector for production.</p>
 </div>
 <div class="pt-3 border-t border-slate-100 font-label-mono-xs text-xs text-emerald-700 font-medium flex items-center gap-1">
 <span class="material-symbols-outlined text-[14px]">lock</span>
-<span>Tenant-Separated Namespaces</span>
+<span>Per-workspace isolation</span>
 </div>
 </div>
-<!-- Stage 3 (Highlighted Highlight Stage) -->
-<div class="p-5 rounded-xl bg-emerald-50/70 border-2 border-emerald-500 shadow-sm flex flex-col justify-between relative">
-<div class="mb-4">
-<div class="flex items-center justify-between mb-3">
-<span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-emerald-600 text-white font-bold">STAGE 03 · CORE</span>
-<span class="material-symbols-outlined text-emerald-600 text-[20px]">manage_search</span>
-</div>
-<h3 class="font-headline-md text-base font-bold text-emerald-900 mb-2">3-Stage Hybrid Retrieval</h3>
-<p class="font-body-sm text-xs sm:text-sm text-slate-700 leading-relaxed">Vector + BM25 ensemble re-ranked through Cross-Encoder ms-marco-MiniLM (top 20 to 5).</p>
-</div>
-<div class="pt-3 border-t border-emerald-200/80 font-label-mono-xs text-xs text-emerald-800 font-bold flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">trending_up</span>
-<span>+34% Context Precision</span>
-</div>
-</div>
-<!-- Stage 4 -->
+<!-- Stage 3 -->
 <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between hover:border-slate-300 hover:shadow-md transition-all">
 <div class="mb-4">
 <div class="flex items-center justify-between mb-3">
-<span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">STAGE 04</span>
-<span class="material-symbols-outlined text-slate-400 text-[20px]">account_tree</span>
+<span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">STAGE 03</span>
+<span class="material-symbols-outlined text-slate-400 text-[20px]">manage_search</span>
 </div>
-<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Agentic Reasoning</h3>
-<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">Adaptive query router (Direct, Multi-hop, Structured Compare, Summarize) + History-Aware Reformulation.</p>
+<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Hybrid Retrieval</h3>
+<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">EnsembleRetriever combining vector search (0.6 weight) + BM25 keyword search (0.4 weight). Returns top-5 each.</p>
 </div>
 <div class="pt-3 border-t border-slate-100 font-label-mono-xs text-xs text-teal-700 font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>Semantic + keyword coverage</span>
+</div>
+</div>
+<!-- Stage 4 (Highlighted) -->
+<div class="p-5 rounded-xl bg-emerald-50/70 border-2 border-emerald-500 shadow-sm flex flex-col justify-between relative">
+<div class="mb-4">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-emerald-600 text-white font-bold">STAGE 04 · CORE</span>
+<span class="material-symbols-outlined text-emerald-600 text-[20px]">psychology</span>
+</div>
+<h3 class="font-headline-md text-base font-bold text-emerald-900 mb-2">Rerank + Reformulate</h3>
+<p class="font-body-sm text-xs sm:text-sm text-slate-700 leading-relaxed">Cross-Encoder ms-marco-MiniLM re-ranks retrieved candidates down to top-5. History-aware retriever reformulates follow-ups into standalone queries.</p>
+</div>
+<div class="pt-3 border-t border-emerald-200/80 font-label-mono-xs text-xs text-emerald-800 font-bold flex items-center gap-1">
 <span class="material-symbols-outlined text-[14px]">auto_fix_high</span>
-<span>Sub-query Decomposition</span>
+<span>Cross-Encoder + LLM reformulation</span>
 </div>
 </div>
 <!-- Stage 5 -->
@@ -349,280 +387,231 @@
 <span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">STAGE 05</span>
 <span class="material-symbols-outlined text-slate-400 text-[20px]">verified</span>
 </div>
-<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Generation &amp; Attribution</h3>
-<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">Groq / OpenAI / Anthropic router with SSE token streaming, verifiable page citations, and chunk relevance scores.</p>
+<h3 class="font-headline-md text-base font-bold text-slate-900 mb-2">Generate + Cite</h3>
+<p class="font-body-sm text-xs sm:text-sm text-slate-600 leading-relaxed">Groq LLM (qwen3.8-27b) with SSE token streaming. Citation engine returns source, page, chunk text, and relevance score.</p>
 </div>
 <div class="pt-3 border-t border-slate-100 font-label-mono-xs text-xs text-emerald-700 font-medium flex items-center gap-1">
 <span class="material-symbols-outlined text-[14px]">check_circle</span>
-<span>Strict Provenance Engine</span>
+<span>Verifiable source attribution</span>
 </div>
 </div>
 </div>
 </div>
 </section>
-<!-- CORE VALUE PROPOSITIONS / ENTERPRISE FEATURE BENTO -->
-<section class="w-full py-20 bg-white relative">
+
+<!-- CORE FEATURES -->
+<section id="features" class="w-full bg-slate-50/70 border-y border-slate-200 py-20 relative">
 <div class="max-w-7xl mx-auto px-6 lg:px-12">
 <div class="text-center max-w-3xl mx-auto mb-16">
-<span class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider">ENTERPRISE CONFIDENCE ENGINE</span>
-<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight mt-2">Built for Rigorous Production SLAs</h2>
+<span class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider">WHAT'S BUILT</span>
+<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight mt-2">Core Features</h2>
 <p class="font-body-md text-base text-slate-600 mt-2 leading-relaxed">
-              Eliminate hallucinations, maintain tenant boundaries, and audit every generated inference token with mathematically verifiable citations.
+              Everything you need for a production RAG system: authentication, multi-tenant isolation, hybrid retrieval, citations, streaming, caching, and analytics.
             </p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-<!-- Bento Card 1: Verifiable Citations (7 cols) -->
+<!-- Feature 1: Hybrid Retrieval (7 cols) -->
 <div class="lg:col-span-7 rounded-2xl bg-slate-50 border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between">
 <div>
 <div class="flex items-center justify-between mb-3">
 <div class="inline-flex items-center gap-1.5 font-label-mono-xs text-xs text-emerald-700 bg-emerald-100/80 border border-emerald-200/80 px-2.5 py-1 rounded-md font-semibold">
-<span class="material-symbols-outlined text-[16px]">verified</span>
-<span>ZERO-HALLUCINATION PROVENANCE</span>
+<span class="material-symbols-outlined text-[16px]">manage_search</span>
+<span>3-STAGE HYBRID RETRIEVAL</span>
 </div>
-<span class="font-label-mono-xs text-xs text-slate-500 font-mono">GET /api/v1/workspaces/{id}/query</span>
+<span class="font-label-mono-xs text-xs text-slate-500 font-mono">rag_engine.py</span>
 </div>
-<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Verifiable Citations with Source Highlighting</h3>
+<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Hybrid Search with Cross-Encoder Reranking</h3>
 <p class="font-body-md text-sm sm:text-base text-slate-600 mb-5 leading-relaxed">
-                  Every synthesized claim is bound directly to its originating vector chunk, PDF page, and reranker confidence score.
+                  Vector search finds semantically related chunks. BM25 finds exact keyword matches. Cross-Encoder ms-marco-MiniLM re-ranks the union to find the true top results.
                 </p>
-<!-- High-contrast dark charcoal code block for code readability -->
 <div class="rounded-xl bg-slate-900 p-4 sm:p-5 font-label-code text-xs text-slate-200 overflow-x-auto shadow-sm border border-slate-800">
-<div class="text-slate-400 mb-2 font-mono text-xs">// Sample Live API Streaming SSE Payload with Provenance:</div>
-<pre class="leading-relaxed font-mono"><span class="text-emerald-400">{</span>
-  <span class="text-cyan-300">"answer"</span>: <span class="text-slate-100">"The company reported ₹450 Cr revenue in Q3 2025, representing 23% YoY growth."</span>,
-  <span class="text-cyan-300">"citations"</span>: [
-    {
-      <span class="text-cyan-300">"doc_id"</span>: <span class="text-teal-300">"doc_7b3a"</span>,
-      <span class="text-cyan-300">"doc_name"</span>: <span class="text-slate-100">"Q3_Earnings_Report.pdf"</span>,
-      <span class="text-cyan-300">"page"</span>: <span class="text-emerald-400">12</span>,
-      <span class="text-cyan-300">"chunk_text"</span>: <span class="text-slate-400">"...revenue for Q3 FY2025 stood at ₹450 Crore, representing a 23% YoY growth..."</span>,
-      <span class="text-cyan-300">"relevance_score"</span>: <span class="text-emerald-400 font-bold">0.97</span>,
-      <span class="text-cyan-300">"retrieval_method"</span>: <span class="text-teal-300">"reranker-ms-marco-MiniLM"</span>
-    }
-  ]
-<span class="text-emerald-400">}</span></pre>
+<div class="text-slate-400 mb-2 font-mono text-xs">// EnsembleRetriever weights from rag_engine.py:316-319</div>
+<pre class="leading-relaxed font-mono"><span class="text-emerald-400">ensemble_retriever</span> = <span class="text-cyan-300">EnsembleRetriever</span>(
+    <span class="text-slate-300">retrievers</span>=[<span class="text-amber-300">bm25_retriever</span>, <span class="text-amber-300">vector_retriever</span>],
+    <span class="text-slate-300">weights</span>=[<span class="text-emerald-400 font-bold">0.4</span>, <span class="text-emerald-400 font-bold">0.6</span>]  <span class="text-slate-500">// 60% semantic, 40% keyword</span>
+)
+
+<span class="text-slate-400">// Cross-Encoder reranker: candidates → top-k (default 5)</span>
+<span class="text-emerald-400">reranker</span> = <span class="text-cyan-300">CrossEncoderReranker</span>(
+    <span class="text-slate-300">top_k</span>=<span class="text-emerald-400 font-bold">5</span>,
+    <span class="text-slate-300">max_chars</span>=<span class="text-emerald-400">512</span>
+)
+<span class="text-slate-400">// Model: cross-encoder/ms-marco-MiniLM-L-6-v2</span>
+<span class="text-slate-400">// Graceful fallback to truncation if model unavailable</span></pre>
 </div>
 </div>
 <div class="mt-5 pt-4 border-t border-slate-200/80 flex flex-wrap items-center gap-4 font-label-mono-xs text-xs text-slate-600">
-<span class="text-emerald-700 font-semibold">● Full Source Attribution on Every Answer</span>
-<span>● Page-Level Citations &amp; Rerank Scores</span>
+<span class="text-emerald-700 font-semibold">● Fallback-safe reranker</span>
+<span>● Configurable weights</span>
+<span>● BM25 index cached per store</span>
 </div>
 </div>
-<!-- Bento Card 2: Agentic Multi-Hop & History Rewriting (5 cols) -->
+<!-- Feature 2: Citations (5 cols) -->
 <div class="lg:col-span-5 rounded-2xl bg-slate-50 border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between">
 <div>
 <div class="inline-flex items-center gap-1.5 font-label-mono-xs text-xs text-teal-800 bg-teal-100/80 border border-teal-200/80 px-2.5 py-1 rounded-md font-semibold mb-3">
-<span class="material-symbols-outlined text-[16px]">transform</span>
-<span>STATE-AWARE REFORMULATION</span>
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>SOURCE ATTRIBUTION</span>
 </div>
-<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Agentic Multi-Hop &amp; History Reformulation</h3>
+<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Verifiable Citations with Source Highlighting</h3>
 <p class="font-body-md text-sm sm:text-base text-slate-600 mb-5 leading-relaxed">
-                  Conversational references automatically transform into dense, standalone semantic search queries.
+                  Every answer includes deduplicated citations with source filename, page number, chunk text snippet, and reranker relevance score.
                 </p>
-<div class="rounded-xl bg-white border border-slate-200 p-4 space-y-2.5 font-body-sm text-xs sm:text-sm shadow-sm">
-<div class="p-2 rounded bg-slate-50 border border-slate-100 flex items-start gap-2">
-<span class="font-label-mono-xs text-xs text-slate-500 uppercase font-bold w-14 pt-0.5 shrink-0">User</span>
-<span class="text-slate-800 font-medium">"What was Q3 revenue?"</span>
-</div>
-<div class="p-2 rounded bg-emerald-50/50 border border-emerald-100 flex items-start gap-2">
-<span class="font-label-mono-xs text-xs text-emerald-700 uppercase font-bold w-14 pt-0.5 shrink-0">Engine</span>
-<span class="text-emerald-900 font-medium">"₹450 Cr (from Q3 Earnings Report, Page 12)"</span>
-</div>
-<div class="p-2 rounded bg-slate-50 border border-slate-100 flex items-start gap-2">
-<span class="font-label-mono-xs text-xs text-slate-500 uppercase font-bold w-14 pt-0.5 shrink-0">User</span>
-<span class="text-slate-800 font-medium">"What about operating margin?"</span>
-</div>
-<div class="p-2.5 rounded bg-emerald-100/70 border border-emerald-200 flex items-start gap-2">
-<span class="font-label-mono-xs text-xs text-emerald-800 uppercase font-bold w-14 pt-0.5 shrink-0">Rewrite</span>
-<span class="font-label-mono-xs text-xs text-emerald-900 font-semibold leading-relaxed">"What was the operating margin in Q3 FY2025?" ➔ Executing BM25 + Vector</span>
-</div>
+<div class="rounded-xl bg-white border border-slate-200 p-4 font-label-code text-xs shadow-sm overflow-x-auto">
+<div class="text-slate-400 mb-2 font-mono">// Actual API response structure (main_v2.py:584-595)</div>
+<pre class="text-slate-700 leading-relaxed font-mono"><span class="text-emerald-600">{</span>
+  <span class="text-cyan-700">"answer"</span>: <span class="text-slate-600">"Revenue was ₹450 Cr in Q3..."</span>,
+  <span class="text-cyan-700">"sources"</span>: [<span class="text-slate-600">"Q3_Report.pdf"</span>],
+  <span class="text-cyan-700">"citations"</span>: [{
+    <span class="text-cyan-700">"source"</span>: <span class="text-slate-600">"Q3_Report.pdf"</span>,
+    <span class="text-cyan-700">"page"</span>: <span class="text-emerald-600">12</span>,
+    <span class="text-cyan-700">"chunk_text"</span>: <span class="text-slate-500">"...revenue stood at ₹450 Cr..."</span>,
+    <span class="text-cyan-700">"relevance_score"</span>: <span class="text-emerald-600 font-bold">0.94</span>
+  }],
+  <span class="text-cyan-700">"latency_ms"</span>: <span class="text-emerald-600">1923.45</span>,
+  <span class="text-cyan-700">"reranker"</span>: <span class="text-emerald-600">true</span>
+<span class="text-emerald-600">}</span></pre>
 </div>
 </div>
 <div class="mt-5 pt-4 border-t border-slate-200/80 font-label-mono-xs text-xs text-teal-800 font-medium">
-                Multi-hop graph expansion &amp; Subquery decomposition enabled
+                Deduplicated per chunk · Reranker score attached · Page-level granularity
               </div>
 </div>
-<!-- Bento Card 3: Multi-Tenant Workspaces (5 cols) -->
+<!-- Feature 3: Multi-Tenant Workspaces (5 cols) -->
 <div class="lg:col-span-5 rounded-2xl bg-slate-50 border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between">
 <div>
 <div class="inline-flex items-center gap-1.5 font-label-mono-xs text-xs text-emerald-800 bg-emerald-100/80 border border-emerald-200/80 px-2.5 py-1 rounded-md font-semibold mb-3">
 <span class="material-symbols-outlined text-[16px]">domain</span>
 <span>JWT WORKSPACE ISOLATION</span>
 </div>
-<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Multi-Tenant Workspaces &amp; RBAC</h3>
+<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Multi-Tenant Workspaces</h3>
 <p class="font-body-md text-sm sm:text-base text-slate-600 mb-5 leading-relaxed">
-                  Complete namespace boundaries. Ingest sensitive corporate PDFs with guaranteed isolation per enterprise organization.
+                  Isolated knowledge bases per team or project. JWT authentication with role-based access (admin, manager, user, viewer). Per-workspace analytics.
                 </p>
 <div class="space-y-2">
 <div class="p-2.5 rounded-lg bg-white border border-slate-200 flex items-center justify-between font-label-mono-xs text-xs shadow-xs">
-<span class="text-slate-800 font-semibold">Isolated workspaces per team</span>
-<span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-medium">JWT-Scoped</span>
+<span class="text-slate-800 font-semibold">POST /api/v1/workspaces</span>
+<span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-medium">Create</span>
 </div>
 <div class="p-2.5 rounded-lg bg-white border border-slate-200 flex items-center justify-between font-label-mono-xs text-xs shadow-xs">
-<span class="text-slate-800 font-semibold">Per-workspace analytics</span>
-<span class="text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 font-medium">Queries · Cost · Latency</span>
+<span class="text-slate-800 font-semibold">POST /{id}/upload</span>
+<span class="text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 font-medium">Upload PDF</span>
 </div>
 <div class="p-2.5 rounded-lg bg-white border border-slate-200 flex items-center justify-between font-label-mono-xs text-xs shadow-xs">
-<span class="text-slate-800 font-semibold">Independent vector namespaces</span>
-<span class="text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-medium">ChromaDB Collection Per WS</span>
+<span class="text-slate-800 font-semibold">GET /{id}/analytics</span>
+<span class="text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-medium">Analytics</span>
 </div>
 </div>
 </div>
 <div class="mt-5 pt-4 border-t border-slate-200/80 font-label-mono-xs text-xs text-slate-600">
-                Zero cross-contamination · Row Level Security (RLS) PostgreSQL &amp; Chroma
+                4 role levels · Soft-delete · Per-workspace LLM config · Query logging
               </div>
 </div>
-<!-- Bento Card 4: Built-in RAGAS Automated Evaluation (7 cols) -->
+<!-- Feature 4: Streaming + Cache (7 cols) -->
 <div class="lg:col-span-7 rounded-2xl bg-slate-50 border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between">
 <div>
 <div class="flex items-center justify-between mb-3">
 <div class="inline-flex items-center gap-1.5 font-label-mono-xs text-xs text-emerald-800 bg-emerald-100/80 border border-emerald-200/80 px-2.5 py-1 rounded-md font-semibold">
-<span class="material-symbols-outlined text-[16px]">query_stats</span>
-<span>CONTINUOUS AUTOMATED QA</span>
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span>SSE STREAMING + SEMANTIC CACHE</span>
 </div>
-<span class="font-label-mono-xs text-xs text-slate-500 font-medium">RAGAS Framework</span>
+<span class="font-label-mono-xs text-xs text-slate-500 font-medium">ai_engine/semantic_cache.py</span>
 </div>
-<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Built-in RAGAS Automated Evaluation</h3>
+<h3 class="font-headline-lg text-xl sm:text-2xl text-slate-900 font-bold mb-2">Streaming Responses &amp; Semantic Caching</h3>
 <p class="font-body-md text-sm sm:text-base text-slate-600 mb-5 leading-relaxed">
-                  Evaluate against synthetic ground-truth datasets before rolling changes into production. Quantify regression in latency and context precision.
+                  Server-Sent Events deliver tokens as they're generated. Semantic cache (Redis-backed or in-memory) avoids redundant LLM calls for similar queries within a 24h TTL.
                 </p>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-<div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Faithfulness</div>
-<div class="font-headline-md text-2xl text-emerald-600 font-extrabold my-1">0.89</div>
-<div class="font-label-mono-xs text-xs text-slate-500">Target &gt; 0.90</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="rounded-xl bg-white border border-slate-200 p-4 shadow-xs">
+<div class="font-label-mono-xs text-xs text-slate-500 font-medium mb-2">SSE Event Types</div>
+<div class="space-y-1 font-label-mono-xs text-xs">
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="text-slate-600">start — stream initiated</span></div>
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-500"></span><span class="text-slate-600">sources — citations pushed</span></div>
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-teal-500"></span><span class="text-slate-600">token — individual LLM tokens</span></div>
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span><span class="text-slate-600">done — stream complete</span></div>
 </div>
-<div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Answer Relevancy</div>
-<div class="font-headline-md text-2xl text-teal-600 font-extrabold my-1">0.87</div>
-<div class="font-label-mono-xs text-xs text-slate-500">Target &gt; 0.85</div>
 </div>
-<div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Context Precision</div>
-<div class="font-headline-md text-2xl text-emerald-600 font-extrabold my-1">0.91</div>
-<div class="font-label-mono-xs text-xs text-slate-500">Target &gt; 0.91</div>
+<div class="rounded-xl bg-white border border-slate-200 p-4 shadow-xs">
+<div class="font-label-mono-xs text-xs text-slate-500 font-medium mb-2">Cache Config</div>
+<div class="space-y-1 font-label-mono-xs text-xs">
+<div class="text-slate-600">Backend: Redis or in-memory</div>
+<div class="text-slate-600">TTL: 24 hours</div>
+<div class="text-slate-600">Max entries: 256 (LRU)</div>
+<div class="text-slate-600">Scope: per-workspace</div>
+<div class="text-slate-600">Exact match + optional similarity</div>
 </div>
-<div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Avg Latency</div>
-<div class="font-headline-md text-2xl text-slate-800 font-extrabold my-1">1.9s</div>
-<div class="font-label-mono-xs text-xs text-slate-500">Documented Eval</div>
 </div>
 </div>
 </div>
 <div class="mt-5 pt-4 border-t border-slate-200/80 font-label-code text-xs text-slate-600 truncate">
-                $ python tests/eval_rag.py --workspace-id test_ws --dataset tests/fixtures/eval_set.json
+                POST /api/v1/workspaces/{id}/query/stream — SSE with token-by-token delivery
               </div>
 </div>
 </div>
 </div>
 </section>
-<!-- BENCHMARK COMPARISON TABLE -->
-<section class="w-full bg-slate-50/70 border-t border-slate-200 py-20">
+
+<!-- EVALUATION METRICS -->
+<section class="w-full py-20 bg-white relative">
 <div class="max-w-7xl mx-auto px-6 lg:px-12">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-<div>
-<span class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider">EMPIRICAL BENCHMARKS</span>
-<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight mt-2">Production Retrieval Accuracy</h2>
-</div>
-<p class="font-body-md text-base text-slate-600 max-w-md leading-relaxed">
-              Tested on an exhaustive 50-document legal and financial corpus with high semantic density and multi-column tables.
+<div class="text-center max-w-3xl mx-auto mb-16">
+<span class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider">BUILT-IN EVALUATION</span>
+<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight mt-2">Evaluation Harness</h2>
+<p class="font-body-md text-base text-slate-600 mt-2 leading-relaxed">
+              Automated retrieval and faithfulness metrics with CI integration. Measure precision@k, recall@k, MRR@k, and LLM-as-judge faithfulness against a deterministic test corpus.
             </p>
 </div>
-<!-- Comparative Table Container -->
-<div class="overflow-x-auto rounded-2xl bg-white border border-slate-200 shadow-md">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-slate-100/80 border-b border-slate-200 text-slate-600 font-label-mono-xs text-xs uppercase tracking-wider font-semibold">
-<th class="py-4 px-6">Evaluation Metric</th>
-<th class="py-4 px-5">Vector-Only Baseline</th>
-<th class="py-4 px-5">Hybrid (No Rerank)</th>
-<th class="py-4 px-6 bg-emerald-50 text-emerald-900 font-bold border-x border-emerald-100">InfiniFlow (Full Stack)</th>
-<th class="py-4 px-6 text-right">Net Improvement</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 font-body-sm text-sm">
-<!-- Row 1 -->
-<tr class="hover:bg-slate-50/70 transition-colors">
-<td class="py-4 px-6 font-headline-md font-semibold text-slate-900 flex items-center gap-2">
-<span class="material-symbols-outlined text-emerald-600 text-[18px]">target</span>
-                    Context Precision
-                  </td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">0.68</td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">0.79</td>
-<td class="py-4 px-6 bg-emerald-50/60 font-headline-md font-bold text-emerald-700 border-x border-emerald-100">0.91</td>
-<td class="py-4 px-6 text-right">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-mono-xs text-xs font-semibold">
-                      +34% Precision Boost
-                    </span>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-slate-50/70 transition-colors">
-<td class="py-4 px-6 font-headline-md font-semibold text-slate-900 flex items-center gap-2">
-<span class="material-symbols-outlined text-teal-600 text-[18px]">verified_user</span>
-                    Answer Faithfulness
-                  </td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">0.71</td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">0.81</td>
-<td class="py-4 px-6 bg-emerald-50/60 font-headline-md font-bold text-emerald-700 border-x border-emerald-100">0.89</td>
-<td class="py-4 px-6 text-right">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-mono-xs text-xs font-semibold">
-                      +25% Less Hallucination
-                    </span>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-slate-50/70 transition-colors">
-<td class="py-4 px-6 font-headline-md font-semibold text-slate-900 flex items-center gap-2">
-<span class="material-symbols-outlined text-cyan-600 text-[18px]">psychology</span>
-                    Answer Relevancy
-                  </td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">0.74</td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">0.83</td>
-<td class="py-4 px-6 bg-emerald-50/60 font-headline-md font-bold text-emerald-700 border-x border-emerald-100">0.87</td>
-<td class="py-4 px-6 text-right">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-mono-xs text-xs font-semibold">
-                      +18% Task Match
-                    </span>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-slate-50/70 transition-colors">
-<td class="py-4 px-6 font-headline-md font-semibold text-slate-900 flex items-center gap-2">
-<span class="material-symbols-outlined text-amber-600 text-[18px]">speed</span>
-                    Avg Query Latency
-                  </td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">3.2s</td>
-<td class="py-4 px-5 font-label-mono-xs text-xs text-slate-600">2.8s</td>
-<td class="py-4 px-6 bg-emerald-50/60 font-headline-md font-bold text-emerald-700 border-x border-emerald-100">1.9s</td>
-<td class="py-4 px-6 text-right">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 font-label-mono-xs text-xs font-semibold">
-                      -41% Latency Reduction
-                    </span>
-</td>
-</tr>
-</tbody>
-</table>
+<!-- Evaluation Metrics Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 mb-8">
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Context Precision@5</div>
+<div class="font-headline-lg text-2xl text-emerald-600 font-extrabold my-1">precision_at_k</div>
+<div class="font-body-sm text-xs text-slate-500">Fraction of top-5 chunks carrying evidence</div>
 </div>
-<div class="mt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 font-label-mono-xs text-xs gap-2">
-<span>* Tested with ms-marco-MiniLM-L-6-v2 Cross-Encoder reranker and qwen/qwen3.8-27b (Groq).</span>
-<span class="text-emerald-700 font-semibold">Source: evals/test_eval_rag.py (Automated CI Run)</span>
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Recall@5</div>
+<div class="font-headline-lg text-2xl text-teal-600 font-extrabold my-1">recall_at_k</div>
+<div class="font-body-sm text-xs text-slate-500">Expected sources found in top-5 retrieval</div>
+</div>
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+<div class="font-label-mono-xs text-xs text-slate-500 font-medium">MRR@5</div>
+<div class="font-headline-lg text-2xl text-slate-800 font-extrabold my-1">mrr_at_k</div>
+<div class="font-body-sm text-xs text-slate-500">Reciprocal rank of first correct source</div>
+</div>
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+<div class="font-label-mono-xs text-xs text-slate-500 font-medium">Faithfulness</div>
+<div class="font-headline-lg text-2xl text-emerald-600 font-extrabold my-1">LLM-as-judge</div>
+<div class="font-body-sm text-xs text-slate-500">Answer grounded in retrieved context (0–1)</div>
+</div>
+</div>
+<!-- CI Thresholds -->
+<div class="rounded-xl bg-slate-900 border border-slate-800 p-5 font-label-code text-xs text-slate-300 overflow-x-auto">
+<div class="text-slate-400 mb-2 font-mono text-xs">// CI thresholds from evals/evaluate.py:36-38</div>
+<pre class="leading-relaxed font-mono"><span class="text-emerald-400">CI_CONTEXT_PRECISION_OK</span> = <span class="text-emerald-400 font-bold">0.2</span>   <span class="text-slate-500">// minimum precision@5</span>
+<span class="text-emerald-400">CI_RECALL_OK</span>             = <span class="text-emerald-400 font-bold">0.75</span>  <span class="text-slate-500">// minimum recall@5</span>
+<span class="text-emerald-400">CI_FAITHFULNESS_OK</span>       = <span class="text-emerald-400 font-bold">0.65</span>  <span class="text-slate-500">// minimum faithfulness score</span>
+
+<span class="text-slate-400">// Test corpus: 4 documents, 8 chunks, 4 questions</span>
+<span class="text-slate-400">// Run: python -m evals.evaluate</span>
+<span class="text-slate-400">// CI fails if any metric falls below threshold</span></pre>
 </div>
 </div>
 </section>
-<!-- DEVELOPER API DROP-IN & QUICKSTART CODE TERMINAL -->
-<section class="w-full py-20 bg-white relative">
+
+<!-- API SECTION -->
+<section id="api" class="w-full bg-slate-50/70 border-t border-slate-200 py-20">
 <div class="max-w-7xl mx-auto px-6 lg:px-12">
-<div class="text-center max-w-2xl mx-auto mb-14">
-<span class="font-label-mono-xs text-xs text-teal-700 font-bold uppercase tracking-wider">RESTFUL &amp; FASTAPI COMPATIBLE</span>
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<span class="font-label-mono-xs text-xs text-emerald-600 font-bold uppercase tracking-wider">FASTAPI REST API</span>
 <h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight mt-2">Drop-in API. Up in Minutes.</h2>
-<p class="font-body-md text-base text-slate-600 mt-2 leading-relaxed">
-              Query with full streaming SSE responses and granular chunk provenance with standard HTTP requests.
+</div>
+<p class="font-body-md text-base text-slate-600 max-w-md leading-relaxed">
+              Full OpenAPI docs at /api/docs. 19 endpoints across auth, workspaces, documents, query, analytics, and system health.
             </p>
 </div>
-<!-- Terminal Box (Polished Dark Dev Shell on Light Layout) -->
+<!-- API Terminal -->
 <div class="max-w-4xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden">
-<!-- Window Chrome -->
 <div class="h-12 bg-slate-950 px-5 flex items-center justify-between border-b border-slate-800">
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
@@ -632,45 +621,181 @@
 </div>
 <div class="flex items-center gap-2 font-label-mono-xs text-xs">
 <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">POST</span>
-<span class="text-slate-400 font-mono">/api/v1/workspaces/{id}/query</span>
+<span class="text-slate-400 font-mono">/api/v1/workspaces/{id}/query/stream</span>
 </div>
 </div>
-<!-- Terminal Content with Code -->
 <div class="p-6 sm:p-8 font-label-code text-xs sm:text-sm overflow-x-auto space-y-4">
-<div class="text-slate-400 font-mono"># 1. Execute query with token streaming and citations enabled</div>
-<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/workspaces/ws_legal_corp/query \
-  -H <span class="text-emerald-400">"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5..."</span> \
+<div class="text-slate-400 font-mono"># 1. Sign up and get a JWT token</div>
+<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/auth/signup \
   -H <span class="text-emerald-400">"Content-Type: application/json"</span> \
-  -d <span class="text-slate-300">'{
-    "query": "What was the operating margin and YoY growth?",
-    "stream": true,
-    "include_citations": true,
-    "similarity_threshold": 0.75
-  }'</span></pre>
-<div class="text-slate-400 pt-2 font-mono"># 2. Server-Sent Events (SSE) Response Stream (illustrative shape):</div>
+  -d <span class="text-slate-300">'{"email":"you@example.com","password":"secret","full_name":"You"}'</span></pre>
+<div class="text-slate-400 pt-2 font-mono"># 2. Create a workspace and upload a PDF</div>
+<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/workspaces \
+  -H <span class="text-emerald-400">"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5..."</span> \
+  -d <span class="text-slate-300">'{"name":"My Workspace","description":"Team docs"}'</span>
+
+<span class="text-teal-400">curl</span> -X POST https://infiniflow.onrender.com/api/v1/workspaces/{id}/upload \
+  -H <span class="text-emerald-400">"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5..."</span> \
+  -F <span class="text-emerald-400">"file=@report.pdf"</span></pre>
+<div class="text-slate-400 pt-2 font-mono"># 3. Query with streaming SSE and citations</div>
 <div class="p-4 rounded-lg bg-slate-950/80 border border-slate-800/80 font-label-mono-xs text-xs text-slate-300 space-y-1.5 font-mono">
-<div class="text-teal-300">data: {"token": "Operating", "done": false}</div>
-<div class="text-teal-300">data: {"token": " margin", "done": false}</div>
-<div class="text-teal-300">data: {"token": " was ...", "done": false}</div>
-<div class="text-emerald-400">data: {"event": "citations", "citations": [{"page": 4, "doc": "source.pdf", "score": 0.94}]}</div>
-<div class="text-slate-400">data: [DONE]</div>
+<div><span class="text-teal-400">curl</span> -N -X POST https://infiniflow.onrender.com/api/v1/workspaces/{id}/query/stream \</div>
+<div>  -H <span class="text-emerald-400">"Authorization: Bearer eyJ..."</span> \</div>
+<div>  -d <span class="text-slate-300">'{"question":"What was the revenue?","stream":true,"include_citations":true}'</span></div>
+<div class="pt-2 text-slate-400"># SSE Response:</div>
+<div class="text-cyan-300">event: sources</div>
+<div class="text-cyan-300">data: {"citations": [{"source": "report.pdf", "page": 12, "relevance_score": 0.94}]}</div>
+<div class="text-cyan-300">event: token</div>
+<div class="text-cyan-300">data: {"token": "Revenue", "done": false}</div>
+<div class="text-cyan-300">event: token</div>
+<div class="text-cyan-300">data: {"token": " was ₹450 Cr", "done": false}</div>
+<div class="text-emerald-400">event: done</div>
+<div class="text-emerald-400">data: {"latency_ms": 1923.45, "strategy_used": "hybrid"}</div>
 </div>
 </div>
-<!-- Quick copy footer -->
 <div class="bg-slate-950 px-6 py-3.5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
 <div class="flex items-center gap-4 font-label-mono-xs text-xs text-slate-400">
-<span>FastAPI Interactive Docs: <a class="text-emerald-400 hover:underline" href="https://infiniflow.onrender.com/api/docs">/api/docs</a></span>
+<span>Interactive Docs: <a class="text-emerald-400 hover:underline" href="https://infiniflow.onrender.com/api/docs" rel="noreferrer" target="_blank">/api/docs</a></span>
 <span>OpenAPI v3.1</span>
 </div>
-<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-label-mono-xs text-xs transition-colors" onclick="navigator.clipboard.writeText('docker run -p 8000:8000 ghcr.io/apoorva5544/infiniflow:latest')">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-label-mono-xs text-xs transition-colors" onclick="navigator.clipboard.writeText('git clone https://github.com/Apoorva5544/Infiniflow.git')">
 <span class="material-symbols-outlined text-[16px]">content_copy</span>
-<span>Copy Docker Command</span>
+<span>Copy Clone Command</span>
 </button>
 </div>
 </div>
+<!-- API Endpoints Table -->
+<div class="mt-8 overflow-x-auto rounded-2xl bg-white border border-slate-200 shadow-md">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-100/80 border-b border-slate-200 text-slate-600 font-label-mono-xs text-xs uppercase tracking-wider font-semibold">
+<th class="py-3 px-5">Method</th>
+<th class="py-3 px-5">Endpoint</th>
+<th class="py-3 px-5">Auth</th>
+<th class="py-3 px-5">Description</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 font-body-sm text-sm">
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">POST</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/auth/signup</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-500">No</td>
+<td class="py-3 px-5 text-slate-600">Register new user</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">POST</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/auth/login</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-500">No</td>
+<td class="py-3 px-5 text-slate-600">Login, returns JWT</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">POST</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/workspaces</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-emerald-600">JWT</td>
+<td class="py-3 px-5 text-slate-600">Create workspace</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-cyan-100 text-cyan-700 font-bold">POST</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/workspaces/{id}/upload</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-emerald-600">JWT</td>
+<td class="py-3 px-5 text-slate-600">Upload &amp; process PDF</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-cyan-100 text-cyan-700 font-bold">POST</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/workspaces/{id}/query</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-emerald-600">JWT</td>
+<td class="py-3 px-5 text-slate-600">Query with citations (non-streaming)</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-cyan-100 text-cyan-700 font-bold">POST</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/workspaces/{id}/query/stream</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-emerald-600">JWT</td>
+<td class="py-3 px-5 text-slate-600">Streaming SSE query with citations</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-bold">GET</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/api/v1/workspaces/{id}/analytics</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-emerald-600">JWT</td>
+<td class="py-3 px-5 text-slate-600">Workspace analytics (queries, latency, tokens, cost)</td>
+</tr>
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-3 px-5"><span class="font-label-mono-xs text-xs px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-bold">GET</span></td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-700">/health</td>
+<td class="py-3 px-5 font-label-mono-xs text-xs text-slate-500">No</td>
+<td class="py-3 px-5 text-slate-600">Health check (version, vector store, cache)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 font-label-mono-xs text-xs gap-2">
+<span>17 REST endpoints + Swagger UI — view all at <a class="text-emerald-600 hover:underline" href="https://infiniflow.onrender.com/api/docs" rel="noreferrer" target="_blank">/api/docs</a></span>
+<span>Rate limited: 5–30 req/min per endpoint</span>
+</div>
 </div>
 </section>
-<!-- BOTTOM CONVERSION CTA -->
+
+<!-- QUICKSTART -->
+<section class="w-full py-20 bg-white relative">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="text-center max-w-2xl mx-auto mb-14">
+<span class="font-label-mono-xs text-xs text-teal-700 font-bold uppercase tracking-wider">QUICK START</span>
+<h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight mt-2">Run Locally in 3 Steps</h2>
+</div>
+<div class="max-w-4xl mx-auto rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden">
+<div class="h-12 bg-slate-950 px-5 flex items-center justify-between border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+<span class="ml-3 font-label-mono-xs text-xs text-slate-400 font-medium">bash — setup.sh</span>
+</div>
+</div>
+<div class="p-6 sm:p-8 font-label-code text-xs sm:text-sm overflow-x-auto space-y-4">
+<pre class="text-slate-200 leading-relaxed font-mono"><span class="text-slate-400"># 1. Clone and configure</span>
+<span class="text-teal-400">git</span> clone https://github.com/Apoorva5544/Infiniflow.git && <span class="text-teal-400">cd</span> Infiniflow
+<span class="text-teal-400">cp</span> .env.example .env
+<span class="text-slate-400"># Edit .env: add GROQ_API_KEY and JWT_SECRET_KEY</span>
+
+<span class="text-slate-400"># 2a. Docker (recommended)</span>
+<span class="text-teal-400">docker</span> compose up --build
+
+<span class="text-slate-400"># 2b. Or manual setup</span>
+<span class="text-teal-400">python</span> -m venv venv && <span class="text-teal-400">source</span> venv/bin/activate
+<span class="text-teal-400">pip</span> install -r requirements.txt
+<span class="text-teal-400">uvicorn</span> backend.main_v2:app --reload --port 8000
+<span class="text-teal-400">cd</span> frontend && <span class="text-teal-400">npm</span> install && <span class="text-teal-400">npm</span> run dev
+
+<span class="text-slate-400"># 3. Open http://localhost:5173</span></pre>
+</div>
+<div class="bg-slate-950 px-6 py-3.5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-4 font-label-mono-xs text-xs text-slate-400">
+<span>Requires: Python 3.10+, Node 18+, Groq API key</span>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-label-mono-xs text-xs transition-colors" onclick="navigator.clipboard.writeText('git clone https://github.com/Apoorva5544/Infiniflow.git')">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Copy Clone Command</span>
+</button>
+</div>
+</div>
+<!-- Tech Stack Badges -->
+<div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">FastAPI 0.125</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">SQLAlchemy 2.0</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">LangChain 0.3</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">ChromaDB 0.5</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">PGVector</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">Groq API</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">React 18</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">Vite 4</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">Tailwind 3</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">Redis</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">Celery</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-label-mono-xs text-xs text-slate-600 font-medium">Streamlit</span>
+</div>
+</div>
+</section>
+
+<!-- BOTTOM CTA -->
 <section class="w-full bg-slate-50 border-t border-slate-200 py-20 relative overflow-hidden">
 <div class="absolute inset-0 pointer-events-none opacity-40">
 <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-emerald-100 rounded-full blur-[120px]"></div>
@@ -678,30 +803,32 @@
 <div class="relative max-w-5xl mx-auto px-6 lg:px-12 text-center flex flex-col items-center">
 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/90 text-emerald-800 font-label-mono-xs text-xs font-semibold mb-5 border border-emerald-200/80">
 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            Deploy Production-Grade RAG in 5 Minutes
+            Open Source · MIT Licensed
           </div>
 <h2 class="font-headline-xl text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight max-w-2xl mb-4 leading-tight">
-            Stop Guessing. Ship Verifiable RAG with Infinite Scalability.
+            Build Production RAG with Hybrid Retrieval &amp; Verifiable Citations.
           </h2>
 <p class="font-body-lg text-base sm:text-lg text-slate-600 max-w-xl mb-8 leading-relaxed">
-            Spin up your isolated multi-tenant workspaces, connect ChromaDB or PostgreSQL vector storage, and monitor automated RAGAS metrics today.
+            Clone the repo, set your Groq API key, and start querying in minutes. Deploy on Render, Docker, or your own infrastructure.
           </p>
-<!-- Email Capture Form & Primary CTA -->
-<form class="w-full max-w-md flex flex-col sm:flex-row items-center gap-2 mb-6" onsubmit="event.preventDefault(); window.location.href = '/#/register';"> 
-<input class="w-full px-4 py-3 rounded-lg bg-white text-slate-900 border border-slate-300 placeholder:text-slate-400 outline-none font-body-sm text-sm focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 shadow-sm" placeholder="Enter company email..." type="email"/>
-<button class="w-full sm:w-auto shrink-0 px-6 py-3 rounded-lg bg-emerald-600 text-white font-headline-md text-sm font-semibold hover:bg-emerald-700 transition-all shadow-sm" type="submit">
-              Get Started Free
-            </button>
-</form>
-<!-- Trust Badges -->
+<div class="flex flex-wrap items-center justify-center gap-4 mb-6">
+<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 text-white font-headline-md text-base font-semibold shadow-md shadow-emerald-600/20 hover:bg-emerald-700 transition-all group" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">code</span>
+<span>View Source Code</span>
+</a>
+<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white border border-slate-300 text-slate-700 font-headline-md text-base font-semibold hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm" href="https://infiniflow.onrender.com" rel="noreferrer" target="_blank">
+<span>Try Live Demo</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
 <div class="flex flex-wrap items-center justify-center gap-4 text-slate-600 font-label-mono-xs text-xs pt-2">
 <span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> FastAPI Gateway</span>
 <span class="text-slate-300">•</span>
-<span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> PostgreSQL &amp; pgvector</span>
+<span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> PostgreSQL + PGVector</span>
 <span class="text-slate-300">•</span>
 <span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> ChromaDB</span>
 <span class="text-slate-300">•</span>
-<span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> Groq LLM Inference</span>
+<span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> Groq LLM</span>
 <span class="text-slate-300">•</span>
 <span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> MIT Licensed</span>
 </div>
@@ -709,10 +836,10 @@
 </section>
 </div>
 </main>
-<!-- LIGHT ENTERPRISE FOOTER -->
+<!-- FOOTER -->
 <footer class="w-full bg-white border-t border-slate-200 py-16">
 <div class="max-w-7xl mx-auto px-6 lg:px-12">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 <div class="lg:col-span-2 flex flex-col gap-4">
 <div class="flex items-center gap-3">
 <div class="h-8 w-8 rounded-lg overflow-hidden flex items-center justify-center bg-slate-900 border border-slate-800 shadow-sm shrink-0">
@@ -721,86 +848,56 @@
 <span class="font-headline-md text-xl font-extrabold text-slate-900 tracking-tight">InfiniFlow</span>
 </div>
 <p class="font-body-md text-sm text-slate-600 max-w-sm leading-relaxed">
-            High-performance Multi-Tenant Retrieval-Augmented Generation infrastructure. Built for enterprise compliance, sub-second hybrid retrieval, and automated RAGAS evaluation loops.
+            Open-source RAG platform with hybrid retrieval, cross-encoder reranking, streaming citations, and built-in evaluation. Built with FastAPI, LangChain, ChromaDB/PGVector, and Groq.
           </p>
 <div class="flex items-center gap-3 font-label-mono-xs text-xs text-slate-500">
-<span class="inline-flex items-center gap-1.5 text-emerald-700 font-medium">
+<a class="inline-flex items-center gap-1.5 text-emerald-700 font-medium hover:underline" href="https://infiniflow.onrender.com/health" rel="noreferrer" target="_blank">
 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-              <span id="system-status">Checking health…</span>
-            </span>
+              Health Check
+            </a>
 <span class="text-slate-300">|</span>
-<span id="api-version">FastAPI Gateway</span>
+<a class="hover:text-emerald-700 transition-colors" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">GitHub</a>
 </div>
 </div>
 <div class="flex flex-col gap-3">
 <span class="font-headline-md text-xs font-bold text-slate-900 uppercase tracking-wider">Product</span>
 <nav class="flex flex-col gap-2 font-body-sm text-sm">
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Ingestion Pipeline</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Hybrid Search (Vector + BM25)</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Cross-Encoder Reranker</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Agentic RAG Workflows</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Citations &amp; Provenance Engine</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#pipeline">Pipeline Stages</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#features">Hybrid Retrieval</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#features">Citations Engine</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#features">Semantic Caching</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#features">Multi-Tenant Workspaces</a>
 </nav>
 </div>
 <div class="flex flex-col gap-3">
 <span class="font-headline-md text-xs font-bold text-slate-900 uppercase tracking-wider">Developers</span>
 <nav class="flex flex-col gap-2 font-body-sm text-sm">
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" data-path="api-docs" href="#">FastAPI Interactive Docs</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" data-path="ragas-benchmarks" href="#">RAGAS Evaluation Suite</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Streamlit Telemetry Dashboard</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">GitHub Repository</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Docker &amp; K8s Deployment</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://infiniflow.onrender.com/api/docs" rel="noreferrer" target="_blank">FastAPI Interactive Docs</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://github.com/Apoorva5544/Infiniflow" rel="noreferrer" target="_blank">GitHub Repository</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="https://github.com/Apoorva5544/Infiniflow#-evaluation" rel="noreferrer" target="_blank">Evaluation Harness</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#architecture">Architecture</a>
+<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#api">API Reference</a>
 </nav>
 </div>
 <div class="flex flex-col gap-3">
 <span class="font-headline-md text-xs font-bold text-slate-900 uppercase tracking-wider">Stack</span>
 <nav class="flex flex-col gap-2 font-body-sm text-sm">
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Multi-tenant JWT Isolation</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">ChromaDB &amp; pgvector Adapters</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">HuggingFace Embeddings</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">Groq / OpenAI LLM Router</a>
-<a class="text-slate-600 hover:text-emerald-700 transition-colors" href="#">MIT Licensed</a>
+<span class="text-slate-600">FastAPI + SQLAlchemy</span>
+<span class="text-slate-600">ChromaDB / PGVector</span>
+<span class="text-slate-600">LangChain + Groq</span>
+<span class="text-slate-600">React + Vite + Tailwind</span>
+<span class="text-slate-600">Docker + Render</span>
 </nav>
 </div>
 </div>
 <div class="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 font-body-sm text-xs">
-<p>© 2025 InfiniFlow Inc. Enterprise RAG Platform &amp; Multi-Tenant Knowledge Bases. All rights reserved.</p>
+<p>© 2025 InfiniFlow. Open-source under MIT License.</p>
 <div class="flex items-center gap-4 font-label-mono-xs text-xs">
-<span>AVG LATENCY: 1.9s (documented eval)</span>
-<span>ISOLATION: Multi-tenant JWT</span>
+<span>Embeddings: ONNX MiniLM</span>
+<span>LLM: Groq qwen3.8-27b</span>
 </div>
 </div>
 </div>
 </footer>
-<script>
-/* Wire InfiniFlow CTA links to the SPA (HashRouter). Landing is served from
-   /landing.html while the app lives at /#/…, so map data-path to real routes. */
-(function () {
-  var routes = {
-    'login': '/#/login',
-    'create-workspace': '/#/login',
-  };
-  document.querySelectorAll('a[data-path]').forEach(function (a) {
-    var route = routes[a.getAttribute('data-path')];
-    if (route) a.setAttribute('href', route);
-  });
-
-  /* Live system status + API version from the real /health endpoint. */
-  var statusEl = document.getElementById('system-status');
-  var versionEl = document.getElementById('api-version');
-  var heroVersionEl = document.getElementById('hero-version');
-  fetch('/health')
-    .then(function (r) { return r.json(); })
-    .then(function (h) {
-      if (statusEl) statusEl.textContent = h.status === 'healthy' ? 'All Systems Operational' : 'Status: ' + h.status;
-      if (versionEl && h.version) versionEl.textContent = 'FastAPI Gateway v' + h.version;
-      if (heroVersionEl && h.version) heroVersionEl.textContent = 'FastAPI v' + h.version;
-      if (h.vector_store && h.cache_backend) console.info('vector_store=' + h.vector_store + ' cache=' + h.cache_backend);
-    })
-    .catch(function () {
-      if (statusEl) statusEl.textContent = 'Status Unavailable';
-    });
-})(window);
-</script>
 </body>
 </html>
