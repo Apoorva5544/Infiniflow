@@ -25,7 +25,7 @@
 
 ##  Live Demo
 
-**Deployed URL:** `https://infiniflow.onrender.com`
+**Deployed URL:** `https://infiniflow-prod.onrender.com`
 
 | Endpoint | Description |
 |----------|-------------|
