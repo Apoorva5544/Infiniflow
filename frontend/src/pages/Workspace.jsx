@@ -453,7 +453,7 @@ export default function Workspace() {
                 </div>
 
                 {/* Input */}
-                <div className="px-6 pb-6 py-4 border-t border-slate-200/80 bg-white">
+                <div className="px-6 pt-4 pb-6 border-t border-slate-200/80 bg-white">
                     <form onSubmit={handleQuery} className="relative">
                         <input
                             value={question}
